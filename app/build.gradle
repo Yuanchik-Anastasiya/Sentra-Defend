@@ -4,8 +4,11 @@ plugins {
 }
 
 android {
+    buildFeatures{
+        viewBinding true
+    }
     namespace 'com.yuanchik.sentradefend'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.yuanchik.sentradefend"
@@ -46,4 +49,7 @@ dependencies {
     //Retrofit
     implementation libs.retrofit
     implementation libs.converter.gson
+
+    //HttpLoggingInterceptor
+    implementation(libs.logging.interceptor)
 }
