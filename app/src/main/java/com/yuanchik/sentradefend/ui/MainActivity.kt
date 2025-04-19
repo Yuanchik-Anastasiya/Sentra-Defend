@@ -1,6 +1,6 @@
 package com.yuanchik.sentradefend.ui
 
-import android.annotation.SuppressLint
+
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -10,11 +10,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.ActivityMainBinding
-import com.yuanchik.sentradefend.network.NetworkClient
+import com.yuanchik.sentradefend.debug.NetworkClient
 import com.yuanchik.sentradefend.util.API
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.sql.DriverManager.println
 
 class MainActivity : AppCompatActivity() {
@@ -30,37 +28,39 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //Проверка Url
-        binding.buttonUrl.setOnClickListener {
-            lifecycleScope.launch {
-                try {
-                    val response = NetworkClient.virusTotal.scanUrl(API.KEY_VT, "http://example.com")
-                    if (response.isSuccessful) {
-                        println("✅ URL безопасен: ${response.body()}")
-                    } else {
-                        println("❌ Ошибка проверки: ${response.errorBody()?.string()}")
-                    }
-                } catch (e: Exception) {
-                    Log.e("🚨 Исключение: ${e.message}", e.toString())
-                }
-            }
-        }
-
-        // Проверка IP
-        binding.buttonIP.setOnClickListener {
-            lifecycleScope.launch {
-                try {
-                    val response = NetworkClient.fraudLabs.checkIp("8.8.8.8", API.KEY_FLP)
-
-                        if (response.isSuccessful) {
-                            println("✅ FraudLabs OK: ${response.body()}")
-                        } else {
-                            println("❌ FraudLabs ошибка: ${response.errorBody()?.string()}")
+        /*
+                //Проверка Url
+                binding.buttonUrl.setOnClickListener {
+                    lifecycleScope.launch {
+                        try {
+                            val response = NetworkClient.virusTotal.scanUrl(API.KEY_VT, "http://example.com")
+                            if (response.isSuccessful) {
+                                println("✅ URL безопасен: ${response.body()}")
+                            } else {
+                                println("❌ Ошибка проверки: ${response.errorBody()?.string()}")
+                            }
+                        } catch (e: Exception) {
+                            Log.e("🚨 Исключение: ${e.message}", e.toString())
                         }
-                } catch (e: Exception) {
-                    Log.e("🚨 Исключение при запросе: ${e.message}", e.toString())
+                    }
                 }
-            }
-        }
+
+                // Проверка IP
+                binding.buttonIP.setOnClickListener {
+                    lifecycleScope.launch {
+                        try {
+                            val response = NetworkClient.fraudLabs.checkIp("8.8.8.8", API.KEY_FLP)
+
+                                if (response.isSuccessful) {
+                                    println("✅ FraudLabs OK: ${response.body()}")
+                                } else {
+                                    println("❌ FraudLabs ошибка: ${response.errorBody()?.string()}")
+                                }
+                        } catch (e: Exception) {
+                            Log.e("🚨 Исключение при запросе: ${e.message}", e.toString())
+                        }
+                    }
+                }
+           */
     }
 }
