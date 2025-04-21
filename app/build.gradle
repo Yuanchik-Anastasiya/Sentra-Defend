@@ -52,4 +52,7 @@ dependencies {
 
     //HttpLoggingInterceptor
     implementation(libs.logging.interceptor)
+
+    implementation libs.androidx.fragment.ktx
+
 }
