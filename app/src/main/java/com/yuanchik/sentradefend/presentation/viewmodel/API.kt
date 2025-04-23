@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.utils
+package com.yuanchik.sentradefend.presentation.viewmodel
 object API {
     // VirusTotal
    const val KEY_VT = "cfad08cf5c792c5fb91e89eed8ad04ea075aedd7f6e5a9877875dc529f57692f"

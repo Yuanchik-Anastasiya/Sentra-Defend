@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id 'kotlin-kapt'
 }
 
 android {
@@ -55,4 +56,10 @@ dependencies {
 
     implementation libs.androidx.fragment.ktx
 
+    kapt libs.dagger.compiler.v217
+    implementation libs.dagger.v217
+
+
+    implementation libs.androidx.navigation.fragment.ktx.v277
+    implementation libs.androidx.navigation.ui.ktx.v277
 }

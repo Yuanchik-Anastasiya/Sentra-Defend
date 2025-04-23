@@ -36,15 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackgroundBorderless"
-            android:text="Scan URL" />
+            android:text="Scan URL/IP" />
 
-        <Button
-            android:id="@+id/scan_ip"
-            style="@style/RoundButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:text="Scan IP" />
 
         <Button
             android:id="@+id/scan_apps"

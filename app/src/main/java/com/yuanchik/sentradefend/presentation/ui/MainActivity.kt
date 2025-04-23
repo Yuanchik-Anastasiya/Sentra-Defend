@@ -2,17 +2,17 @@ package com.yuanchik.sentradefend.presentation.ui
 
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.ui.setupWithNavController
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.ActivityMainBinding
-import com.yuanchik.sentradefend.presentation.view.fragments.HistoryFragment
+import com.yuanchik.sentradefend.presentation.ui.history.HistoryFragment
 import com.yuanchik.sentradefend.presentation.view.fragments.ScanFragment
-import com.yuanchik.sentradefend.presentation.view.fragments.SettingsFragment
+import com.yuanchik.sentradefend.presentation.ui.settings.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
 
         initNavigation()
     }
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun checkFragmentExistence(tag: String): Fragment? =
         supportFragmentManager.findFragmentByTag(tag)
