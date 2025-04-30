@@ -7,22 +7,35 @@
     android:padding="16dp"
     android:gravity="center"
     android:id="@+id/fragment_scan_url"
-    android:background="@drawable/main_screen"
+    android:background="@drawable/screen_scan"
     tools:context=".presentation.ui.scan.ScanURLFragment">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+
+    <android.inputmethodservice.ExtractEditText
         android:id="@+id/inputUrl"
-        android:hint="Введите URL или IP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" Введите URL или IP "
+        android:textColorHint="@color/black"
+        android:textSize="30dp"
         android:inputType="textUri"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <RadioButton
         android:id="@+id/btnScan"
         android:text="Сканировать"
+        android:textSize="25dp"
+        android:textColor="#001945"
+        android:textStyle="bold|italic"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
 </LinearLayout>

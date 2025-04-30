@@ -20,10 +20,10 @@
     <Button
         android:id="@+id/btnFilter"
         style="@style/RoundButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="Filter by date" />
+        android:text="Фильтр по дате" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvScanHistory"

@@ -3,5 +3,10 @@
     <gradient android:startColor="#673AB7"
         android:endColor= "#00aeef"
         android:angle="270"
-        android:centerColor="#2D388A"/>
+        android:centerColor="#2D388A" />
+    <stroke android:width="5dp"
+        android:color="@color/design_default_color_on_secondary"/>
+    <solid android:color="@android:color/transparent"/>
+    <corners android:radius="45dp"/>
+    <padding android:bottom="10dp"/>
 </shape>

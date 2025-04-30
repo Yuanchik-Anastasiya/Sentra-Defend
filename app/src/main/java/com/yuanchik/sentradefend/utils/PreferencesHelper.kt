@@ -17,4 +17,13 @@ object PreferencesHelper {
     fun getBoolean(context: Context, key: String, default: Boolean = false): Boolean {
         return getPreferences(context).getBoolean(key, default)
     }
+    fun saveString(context: Context, key: String, value: String) {
+        val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        prefs.edit().putString(key, value).apply()
+    }
+
+    fun getString(context: Context, key: String): String {
+        val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        return prefs.getString(key, "") ?: ""
+    }
 }

@@ -1,14 +1,17 @@
 package com.yuanchik.sentradefend.presentation.ui.settings
 
+import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.yuanchik.sentradefend.databinding.FragmentSettingsBinding
 import com.yuanchik.sentradefend.presentation.viewmodel.App
 import com.yuanchik.sentradefend.utils.AnimationHelper
@@ -23,9 +26,9 @@ class SettingsFragment : Fragment() {
     @Inject
     lateinit var sharedPrefs: SharedPreferences
 
-    private lateinit var switchNotifications: Switch
-    private lateinit var switchAutoScan: Switch
-    private lateinit var switchAutoUpdate: Switch
+    private lateinit var switchNotifications: MaterialSwitch
+    private lateinit var switchAutoScan: MaterialSwitch
+    private lateinit var switchAutoUpdate: MaterialSwitch
     private lateinit var tvTheme: TextView
     private lateinit var tvApiKeys: TextView
 
@@ -37,8 +40,8 @@ class SettingsFragment : Fragment() {
 
         (requireActivity().application as App).appComponent.inject(this)
 
-        val value = sharedPrefs.getBoolean("auto_check", false)
-        Toast.makeText(requireContext(), "AutoCheck = $value", Toast.LENGTH_SHORT).show()
+//        val value = sharedPrefs.getBoolean("auto_check", false)
+//        Toast.makeText(requireContext(), "AutoCheck = $value", Toast.LENGTH_SHORT).show()
 
         switchNotifications = binding.switchNotifications
         switchAutoScan = binding.switchScheduledScan
@@ -69,9 +72,36 @@ class SettingsFragment : Fragment() {
         }
 
         tvApiKeys.setOnClickListener {
-            Toast.makeText(requireContext(), "Задействованные настройки ключа API", Toast.LENGTH_SHORT).show()
-            // Позже будет отдельный экран или диалог
+            val editText = EditText(requireContext()).apply {
+                hint = "Введите API ключ"
+                setText(PreferencesHelper.getString(requireContext(), "api_key"))
+            }
+
+            AlertDialog.Builder(requireContext())
+                .setTitle("API ключ")
+                .setView(editText)
+                .setPositiveButton("Сохранить") { _, _ ->
+                    val apiKey = editText.text.toString()
+                    PreferencesHelper.saveString(requireContext(), "api_key", apiKey)
+                    Toast.makeText(requireContext(), "Ключ сохранён", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("Отмена", null)
+                .show()
         }
+
+        binding.btnReset.setOnClickListener {
+            switchNotifications.isChecked = false
+            switchAutoScan.isChecked = false
+            switchAutoUpdate.isChecked = false
+
+            PreferencesHelper.saveBoolean(requireContext(), "notifications", false)
+            PreferencesHelper.saveBoolean(requireContext(), "autoscan", false)
+            PreferencesHelper.saveBoolean(requireContext(), "autoupdate", false)
+
+            Toast.makeText(requireContext(), "Настройки сброшены", Toast.LENGTH_SHORT).show()
+        }
+
+
 
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentSettings,
