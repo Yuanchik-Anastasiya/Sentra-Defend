@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, ScanFragment())
             .commit()
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+        binding.bottomNavigation.setOnItemSelectedListener {
 
             when (it.itemId) {
                 R.id.scan -> {
@@ -69,12 +69,16 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.findFragmentByTag(tag)
 
     private fun changeFragment(fragment: Fragment, tag: String) {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (currentFragment?.tag == tag) return
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment, tag)
             .addToBackStack(null)
             .commit()
     }
+
 }
 
 /// Тестирование Api ссылок.

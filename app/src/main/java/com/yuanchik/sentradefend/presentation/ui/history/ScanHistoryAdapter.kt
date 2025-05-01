@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.yuanchik.sentradefend.R
-import com.yuanchik.sentradefend.data.ScanResult
+import com.yuanchik.sentradefend.entity.ScanResultEntity
 
-class ScanHistoryAdapter(private val items: List<ScanResult>) :
+class ScanHistoryAdapter(private val items: MutableList<ScanResultEntity>) :
     RecyclerView.Adapter<ScanHistoryAdapter.ScanViewHolder>() {
 
     inner class ScanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,4 +36,10 @@ class ScanHistoryAdapter(private val items: List<ScanResult>) :
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateList(newItems: List<ScanResultEntity>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 }

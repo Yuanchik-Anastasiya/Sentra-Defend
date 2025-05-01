@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
     namespace 'com.yuanchik.sentradefend'
@@ -64,5 +64,14 @@ dependencies {
     implementation libs.androidx.navigation.fragment.ktx.v277
     implementation libs.androidx.navigation.ui.ktx.v277
 
+    //Room
+    implementation libs.androidx.room.runtime
+    kapt libs.androidx.room.compiler
+
+    // Для корутин
+    implementation libs.androidx.room.ktx
+
+    // Для LiveData
+    implementation libs.androidx.lifecycle.livedata.ktx
 
 }

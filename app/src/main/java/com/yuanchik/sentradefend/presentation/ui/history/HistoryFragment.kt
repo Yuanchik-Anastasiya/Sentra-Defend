@@ -5,38 +5,48 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.yuanchik.sentradefend.R
-import com.yuanchik.sentradefend.data.ScanResult
+import com.yuanchik.sentradefend.data.AppDatabase
 import com.yuanchik.sentradefend.databinding.FragmentHistoryBinding
+import com.yuanchik.sentradefend.entity.ScanResultEntity
+import com.yuanchik.sentradefend.presentation.viewmodel.HistoryViewModel
+import com.yuanchik.sentradefend.presentation.viewmodel.HistoryViewModelFactory
+import com.yuanchik.sentradefend.repository.ScanHistoryRepository
 import com.yuanchik.sentradefend.utils.AnimationHelper
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
     private var binding1: FragmentHistoryBinding? = null
     private val binding get() = binding1!!
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScanHistoryAdapter
+    private lateinit var viewModel: HistoryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         binding1 = FragmentHistoryBinding.inflate(inflater, container, false)
 
+        // Подключение DAO и репозитория
+        val dao = AppDatabase.getDatabase(requireContext()).scanResultDao()
+        val repository = ScanHistoryRepository(dao)
+        val factory = HistoryViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[HistoryViewModel::class.java]
 
-        recyclerView = binding.rvScanHistory
+        adapter = ScanHistoryAdapter(mutableListOf<ScanResultEntity>())
 
-        val dummyData = listOf(
-            ScanResult("2 Jan 2024", "14:20", "5 threats"),
-            ScanResult("2 Jan 2024", "10:12", "No threats"),
-            ScanResult("1 Jan 2024", "18:43", "No threats"),
-        )
+        binding.rvScanHistory.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvScanHistory.adapter = adapter
 
-        adapter = ScanHistoryAdapter(dummyData)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+        // Подписка на Flow
+        lifecycleScope.launchWhenStarted {
+            viewModel.scanResults.collect { list ->
+                adapter.updateList(list)
+            }
+        }
 
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentHistory,
@@ -45,6 +55,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         )
         return binding.root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding1 = null

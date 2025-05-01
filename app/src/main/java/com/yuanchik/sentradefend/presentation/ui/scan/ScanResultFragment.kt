@@ -1,28 +1,57 @@
 package com.yuanchik.sentradefend.presentation.ui.scan
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.yuanchik.sentradefend.R
+import com.yuanchik.sentradefend.data.ScanResult
 import com.yuanchik.sentradefend.databinding.FragmentScanResultBinding
+import com.yuanchik.sentradefend.entity.ScanResultEntity
+import com.yuanchik.sentradefend.presentation.ui.history.HistoryStorage
 import com.yuanchik.sentradefend.presentation.viewmodel.API
+import com.yuanchik.sentradefend.presentation.viewmodel.ScanResultViewModel
 import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
+    private val viewModel: ScanResultViewModel by activityViewModels()
+
     private var binding3: FragmentScanResultBinding? = null
     private val binding get() = binding3!!
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding3 = FragmentScanResultBinding.inflate(inflater, container, false)
+
+        val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault()))
+
+        val result = ScanResultEntity(
+            date = currentDate,
+            time = currentTime,
+            result = binding.scanStatus.text.toString()
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.insertScanResult(result)
+        }
+
+
 
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentScanResult,
@@ -31,6 +60,8 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         )
 
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
