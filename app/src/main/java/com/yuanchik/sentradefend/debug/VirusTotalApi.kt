@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.network
+package com.yuanchik.sentradefend.debug
 
 import retrofit2.Response
 import retrofit2.http.*

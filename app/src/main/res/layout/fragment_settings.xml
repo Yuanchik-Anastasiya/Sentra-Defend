@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_screen"
+    android:id="@+id/fragment_settings"
+    tools:context=".presentation.ui.settings.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/Title_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:paddingBottom="16dp" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchNotifications"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Notifications"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchScheduledScan"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Scheduled scan"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchAutoUpdate"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Database auto-update"/>
+
+        <TextView
+            android:id="@+id/tvApiKeys"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="API keys"
+            android:paddingTop="16dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/tvTheme"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Theme: System"
+            android:paddingTop="16dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/RoundButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сброс настроек"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>
