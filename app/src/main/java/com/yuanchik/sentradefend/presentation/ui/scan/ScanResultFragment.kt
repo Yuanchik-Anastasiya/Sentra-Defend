@@ -10,10 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.yuanchik.sentradefend.R
-import com.yuanchik.sentradefend.data.ScanResult
 import com.yuanchik.sentradefend.databinding.FragmentScanResultBinding
 import com.yuanchik.sentradefend.entity.ScanResultEntity
-import com.yuanchik.sentradefend.presentation.ui.history.HistoryStorage
 import com.yuanchik.sentradefend.presentation.viewmodel.API
 import com.yuanchik.sentradefend.presentation.viewmodel.ScanResultViewModel
 import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
@@ -31,27 +29,11 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
     private var binding3: FragmentScanResultBinding? = null
     private val binding get() = binding3!!
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding3 = FragmentScanResultBinding.inflate(inflater, container, false)
-
-        val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault()))
-
-        val result = ScanResultEntity(
-            date = currentDate,
-            time = currentTime,
-            result = binding.scanStatus.text.toString()
-        )
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.insertScanResult(result)
-        }
-
-
 
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentScanResult,
@@ -60,10 +42,9 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         )
 
         return binding.root
-
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -96,11 +77,26 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
                 binding.scanDetails.text = summary
 
-                binding.scanStatus.text = when {
+                val resultText = when {
                     stats.malicious > 0 -> "⚠️ Опасный URL"
                     stats.suspicious > 0 -> "⚠️ Подозрительный URL"
                     else -> "✅ Безопасный URL"
                 }
+
+                binding.scanStatus.text = resultText
+
+                
+                val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+                val currentDate = LocalDate.now()
+                    .format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault()))
+
+                val result = ScanResultEntity(
+                    date = currentDate,
+                    time = currentTime,
+                    result = resultText
+                )
+
+                viewModel.insertScanResult(result)
 
             } catch (e: Exception) {
                 binding.scanStatus.text = "Ошибка получения результата"

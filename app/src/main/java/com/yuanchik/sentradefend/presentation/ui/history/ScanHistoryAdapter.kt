@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.entity.ScanResultEntity
 
-class ScanHistoryAdapter(private val items: MutableList<ScanResultEntity>) :
-    RecyclerView.Adapter<ScanHistoryAdapter.ScanViewHolder>() {
+class ScanHistoryAdapter :
+    PagingDataAdapter<ScanResultEntity, ScanHistoryAdapter.ScanViewHolder>(DIFF_CALLBACK) {
 
     inner class ScanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateView: TextView = itemView.findViewById(R.id.tvDate)
@@ -25,7 +27,7 @@ class ScanHistoryAdapter(private val items: MutableList<ScanResultEntity>) :
     }
 
     override fun onBindViewHolder(holder: ScanViewHolder, position: Int) {
-        val scan = items[position]
+        val scan = getItem(position) ?: return
         holder.dateView.text = scan.date
         holder.timeView.text = scan.time
         holder.resultView.text = scan.result
@@ -35,11 +37,16 @@ class ScanHistoryAdapter(private val items: MutableList<ScanResultEntity>) :
         )
     }
 
-    override fun getItemCount(): Int = items.size
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ScanResultEntity>() {
+            override fun areItemsTheSame(oldItem: ScanResultEntity, newItem: ScanResultEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun updateList(newItems: List<ScanResultEntity>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: ScanResultEntity, newItem: ScanResultEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }
+

@@ -1,5 +1,6 @@
 package com.yuanchik.sentradefend.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,4 +15,8 @@ interface ScanResultDao {
 
     @Query("SELECT * FROM scan_results ORDER BY id DESC")
     fun getAll(): Flow<List<ScanResultEntity>>
+
+    @Query("SELECT * FROM scan_results ORDER BY id DESC")
+    fun getPagedResults(): PagingSource<Int, ScanResultEntity>
+
 }

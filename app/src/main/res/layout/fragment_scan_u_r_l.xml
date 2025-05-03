@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:id="@+id/fragment_scan_url"
-    android:background="@drawable/screen_scan"
+    android:background="@drawable/main_screen"
     tools:context=".presentation.ui.scan.ScanURLFragment">
 
     <com.google.android.material.textfield.TextInputLayout

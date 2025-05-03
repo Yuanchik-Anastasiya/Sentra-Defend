@@ -57,8 +57,9 @@ dependencies {
 
     implementation libs.androidx.fragment.ktx
 
-    kapt libs.dagger.compiler.v217
-    implementation libs.dagger.v217
+    implementation libs.dagger
+    kapt libs.dagger.compiler
+
 
 
     implementation libs.androidx.navigation.fragment.ktx.v277
@@ -73,5 +74,15 @@ dependencies {
 
     // Для LiveData
     implementation libs.androidx.lifecycle.livedata.ktx
+
+    // Paging
+    implementation libs.androidx.paging.runtime
+    implementation(libs.androidx.room.paging)
+
+
+    // Для ViewModel
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+
+    implementation libs.kotlinx.coroutines.android
 
 }

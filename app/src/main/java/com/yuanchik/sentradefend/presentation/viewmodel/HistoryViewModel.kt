@@ -1,25 +1,17 @@
 package com.yuanchik.sentradefend.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.yuanchik.sentradefend.entity.ScanResultEntity
 import com.yuanchik.sentradefend.repository.ScanHistoryRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.Flow
 
 class HistoryViewModel(private val repository: ScanHistoryRepository) : ViewModel() {
 
-    val scanResults = repository.allResults
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    val scanResults: Flow<PagingData<ScanResultEntity>> =
+        repository.getPagedResults()
+            .cachedIn(viewModelScope)
 }
 
-class HistoryViewModelFactory(private val repository: ScanHistoryRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HistoryViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
