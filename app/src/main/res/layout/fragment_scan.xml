@@ -6,30 +6,9 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_screen"
     android:id="@+id/fragment_scan"
+    android:padding="16dp"
     tools:context=".presentation.view.fragments.ScanFragment">
 
-    <TextView
-        android:id="@+id/title_text"
-        style="@style/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:textSize="45dp"
-        android:text="Sentra Defend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/emblema"
-        android:layout_width="345dp"
-        android:layout_height="342dp"
-        android:paddingTop="20dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/emblema2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <LinearLayout
         android:id="@+id/bottom_screen"
@@ -39,14 +18,14 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emblema">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/scan_url"
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan URL/IP" />
+            android:text="Сканировать URL/IP" />
 
 
         <Button
@@ -54,15 +33,26 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan APPS" />
+            android:text="Сканировать APPS" />
 
         <Button
             android:id="@+id/scan_fils"
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan Fils" />
+            android:text="Сканировать файл" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/emblema"
+        android:layout_width="400dp"
+        android:layout_height="421dp"
+        android:paddingTop="11dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/emblema4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_screen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

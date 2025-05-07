@@ -16,6 +16,7 @@ import com.yuanchik.sentradefend.presentation.viewmodel.API
 import com.yuanchik.sentradefend.presentation.viewmodel.ScanResultViewModel
 import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -23,17 +24,19 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
+
     private val viewModel: ScanResultViewModel by activityViewModels()
 
-    private var binding3: FragmentScanResultBinding? = null
-    private val binding get() = binding3!!
+    private var _binding: FragmentScanResultBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding3 = FragmentScanResultBinding.inflate(inflater, container, false)
+        _binding = FragmentScanResultBinding.inflate(inflater, container, false)
 
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentScanResult,
@@ -44,7 +47,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,9 +59,24 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         }
 
         binding.scanStatus.text = "Проверка URL: $url"
-        binding.scanDetails.text = "Ожидаем результат..."
+        binding.scanDetails.text = "Ожидание результата..."
 
         lifecycleScope.launch {
+            getScanResultWithPolling(scanId, url)
+        }
+    }
+
+    /**
+     * Повторно опрашивает API, пока не появятся реальные результаты
+     */
+    private suspend fun getScanResultWithPolling(scanId: String, url: String) {
+        binding.progressBar.visibility = View.VISIBLE
+
+        var attempt = 0
+        val maxAttempts = 5
+        val delayBetweenAttempts = 4000L
+
+        while (attempt < maxAttempts) {
             try {
                 val response = VirusTotalService.api.getScanResult(
                     apiKey = API.KEY_VT,
@@ -68,12 +85,18 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
                 val stats = response.data.attributes.stats
 
+                if (stats.harmless + stats.malicious + stats.suspicious + stats.undetected == 0) {
+                    attempt++
+                    delay(delayBetweenAttempts)
+                    continue
+                }
+
                 val summary = """
-                    ✅ Безвреден: ${stats.harmless}
-                    ❗ Вредоносен: ${stats.malicious}
-                    ⚠️ Подозрительный: ${stats.suspicious}
-                    ❓ Не определено: ${stats.undetected}
-                """.trimIndent()
+                ✅ Безвреден: ${stats.harmless}
+                ❗ Вредоносен: ${stats.malicious}
+                ⚠️ Подозрительный: ${stats.suspicious}
+                ❓ Не определено: ${stats.undetected}
+            """.trimIndent()
 
                 binding.scanDetails.text = summary
 
@@ -85,10 +108,10 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
                 binding.scanStatus.text = resultText
 
-                
                 val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-                val currentDate = LocalDate.now()
-                    .format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault()))
+                val currentDate = LocalDate.now().format(
+                    DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
+                )
 
                 val result = ScanResultEntity(
                     date = currentDate,
@@ -97,16 +120,25 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 )
 
                 viewModel.insertScanResult(result)
+                return
 
             } catch (e: Exception) {
                 binding.scanStatus.text = "Ошибка получения результата"
-                binding.scanDetails.text = e.message
+                binding.scanDetails.text = e.message ?: "Неизвестная ошибка"
+                return
+            } finally {
+                binding.progressBar.visibility = View.GONE
             }
         }
+
+        binding.scanStatus.text = "⏳ Ответ не получен"
+        binding.scanDetails.text = "Попробуйте повторно позже"
+        binding.progressBar.visibility = View.GONE
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding3 = null
+        _binding = null
     }
 }

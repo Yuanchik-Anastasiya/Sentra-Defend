@@ -1,15 +1,12 @@
 package com.yuanchik.sentradefend.presentation.ui
 
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.ui.setupWithNavController
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.ActivityMainBinding
 import com.yuanchik.sentradefend.presentation.ui.history.HistoryFragment

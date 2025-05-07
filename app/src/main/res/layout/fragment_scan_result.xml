@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_scan_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:id="@+id/fragment_scan_result"
     android:background="@drawable/main_screen"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".presentation.ui.scan.ScanResultFragment">
 
     <TextView
         android:id="@+id/scanStatus"
-        android:text="Безопасен"
-        android:textSize="24sp"
-        android:layout_marginBottom="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Безопасен"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/scanDetails"
-        android:text="Детали проверки будут тут"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:text="Детали проверки будут тут" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </LinearLayout>
