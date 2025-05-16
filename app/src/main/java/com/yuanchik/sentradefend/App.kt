@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.presentation.viewmodel
+package com.yuanchik.sentradefend
 
 import android.app.Application
 import androidx.room.Room

@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.FragmentScanURLBinding
 import com.yuanchik.sentradefend.presentation.viewmodel.API
-import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
+import com.yuanchik.sentradefend.data.remote.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.launch
 

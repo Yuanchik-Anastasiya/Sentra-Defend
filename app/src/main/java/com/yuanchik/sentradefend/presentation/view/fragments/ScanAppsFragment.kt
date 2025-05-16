@@ -14,9 +14,9 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuanchik.sentradefend.R
-import com.yuanchik.sentradefend.data.AppAdapter
+import com.yuanchik.sentradefend.presentation.ui.scan.adapter.AppAdapter
 import com.yuanchik.sentradefend.databinding.FragmentScanAppsBinding
-import com.yuanchik.sentradefend.presentation.ui.scan.AppInfo
+import com.yuanchik.sentradefend.presentation.ui.scan.model.AppInfo
 import com.yuanchik.sentradefend.presentation.ui.scan.ScanResultFragment
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.data
+package com.yuanchik.sentradefend.presentation.ui.scan.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.yuanchik.sentradefend.R
-import com.yuanchik.sentradefend.presentation.ui.scan.AppInfo
+import com.yuanchik.sentradefend.presentation.ui.scan.model.AppInfo
 import android.widget.Filter
 
 class AppAdapter(

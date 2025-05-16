@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.presentation.ui.scan
+package com.yuanchik.sentradefend.presentation.ui.scan.model
 
 import android.graphics.drawable.Drawable
 

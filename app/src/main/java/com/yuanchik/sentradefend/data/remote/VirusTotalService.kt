@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.presentation.viewmodel
+package com.yuanchik.sentradefend.data.remote
 
 import com.yuanchik.sentradefend.di.VirusTotalApi
 import retrofit2.Retrofit

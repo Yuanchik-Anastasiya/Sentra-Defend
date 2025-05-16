@@ -14,7 +14,7 @@ import com.yuanchik.sentradefend.databinding.FragmentScanResultBinding
 import com.yuanchik.sentradefend.entity.ScanResultEntity
 import com.yuanchik.sentradefend.presentation.viewmodel.API
 import com.yuanchik.sentradefend.presentation.viewmodel.ScanResultViewModel
-import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
+import com.yuanchik.sentradefend.data.remote.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

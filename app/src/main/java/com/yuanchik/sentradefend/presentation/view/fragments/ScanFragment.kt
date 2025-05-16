@@ -1,11 +1,8 @@
 package com.yuanchik.sentradefend.presentation.view.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -20,11 +17,10 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.FragmentScanBinding
-import com.yuanchik.sentradefend.presentation.ui.scan.AppInfo
 import com.yuanchik.sentradefend.presentation.ui.scan.ScanResultFragment
 import com.yuanchik.sentradefend.presentation.ui.scan.ScanURLFragment
 import com.yuanchik.sentradefend.presentation.viewmodel.API
-import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
+import com.yuanchik.sentradefend.data.remote.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
