@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.yuanchik.sentradefend.dao.ScanResultDao
 import com.yuanchik.sentradefend.entity.ScanResultEntity
 
-@Database(entities = [ScanResultEntity::class], version = 1)
+@Database(entities = [ScanResultEntity::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun scanResultDao(): ScanResultDao
 

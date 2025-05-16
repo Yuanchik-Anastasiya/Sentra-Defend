@@ -18,6 +18,10 @@ import com.yuanchik.sentradefend.presentation.viewmodel.VirusTotalService
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -50,27 +54,67 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val scanId = arguments?.getString("scan_id")
-        val url = arguments?.getString("url")
+        val scanType = arguments?.getString("scan_type") ?: "url"
 
-        if (scanId == null || url == null) {
-            binding.scanStatus.text = "Ошибка: нет данных"
-            return
-        }
+        when (scanType) {
+            "url" -> {
+                val scanId = arguments?.getString("scan_id")
+                val url = arguments?.getString("url")
 
-        binding.scanStatus.text = "Проверка URL: $url"
-        binding.scanDetails.text = "Ожидание результата..."
+                if (scanId == null || url == null) {
+                    binding.scanStatus.text = "Ошибка: нет данных"
+                    return
+                }
 
-        lifecycleScope.launch {
-            getScanResultWithPolling(scanId, url)
+                binding.scanStatus.text = "Проверка URL: $url"
+                binding.scanDetails.text = "Ожидание результата..."
+
+                lifecycleScope.launch {
+                    getScanResultWithPolling(scanId, url)
+                }
+            }
+
+            "file" -> {
+                val scanId = arguments?.getString("scan_id")
+                val fileName = arguments?.getString("file_name")
+
+                if (scanId == null || fileName == null) {
+                    binding.scanStatus.text = "Ошибка: нет данных файла"
+                    return
+                }
+
+                binding.scanStatus.text = "Проверка файла: $fileName"
+                binding.scanDetails.text = "Ожидание результата..."
+
+                lifecycleScope.launch {
+                    getScanResultWithPolling(scanId, fileName)
+                }
+            }
+
+            "package" -> {
+                val packageName = arguments?.getString("package_name")
+                val appName = arguments?.getString("app_name")
+
+                if (packageName == null || appName == null) {
+                    binding.scanStatus.text = "Ошибка: нет данных пакета"
+                    return
+                }
+
+                binding.scanStatus.text = "Проверка приложения: $appName"
+                binding.scanDetails.text = "Анализ по packageName: $packageName"
+
+                lifecycleScope.launch {
+                    scanPackage(packageName, appName)
+                }
+            }
         }
     }
 
     /**
      * Повторно опрашивает API, пока не появятся реальные результаты
      */
-    private suspend fun getScanResultWithPolling(scanId: String, url: String) {
-        binding.progressBar.visibility = View.VISIBLE
+    private suspend fun getScanResultWithPolling(scanId: String, displayName: String) {
+        _binding?.progressBar?.visibility = View.VISIBLE
 
         var attempt = 0
         val maxAttempts = 5
@@ -98,15 +142,15 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 ❓ Не определено: ${stats.undetected}
             """.trimIndent()
 
-                binding.scanDetails.text = summary
+                _binding?.scanDetails?.text = summary
 
                 val resultText = when {
-                    stats.malicious > 0 -> "⚠️ Опасный URL"
-                    stats.suspicious > 0 -> "⚠️ Подозрительный URL"
-                    else -> "✅ Безопасный URL"
+                    stats.malicious > 0 -> "⚠️ Опасный"
+                    stats.suspicious > 0 -> "⚠️ Подозрительный"
+                    else -> "✅ Безопасный"
                 }
 
-                binding.scanStatus.text = resultText
+                _binding?.scanStatus?.text = "$resultText: $displayName"
 
                 val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
                 val currentDate = LocalDate.now().format(
@@ -114,6 +158,7 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 )
 
                 val result = ScanResultEntity(
+                    content = displayName,
                     date = currentDate,
                     time = currentTime,
                     result = resultText
@@ -123,17 +168,47 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 return
 
             } catch (e: Exception) {
-                binding.scanStatus.text = "Ошибка получения результата"
-                binding.scanDetails.text = e.message ?: "Неизвестная ошибка"
+                _binding?.scanStatus?.text = "Ошибка получения результата"
+                _binding?.scanDetails?.text = e.message ?: "Неизвестная ошибка"
                 return
             } finally {
-                binding.progressBar.visibility = View.GONE
+                _binding?.progressBar?.visibility = View.GONE
             }
         }
 
-        binding.scanStatus.text = "⏳ Ответ не получен"
-        binding.scanDetails.text = "Попробуйте повторно позже"
-        binding.progressBar.visibility = View.GONE
+        _binding?.scanStatus?.text = "⏳ Ответ не получен"
+        _binding?.scanDetails?.text = "Попробуйте повторно позже"
+        _binding?.progressBar?.visibility = View.GONE
+    }
+
+    private suspend fun scanPackage(packageName: String, appName: String) {
+        _binding?.progressBar?.visibility = View.VISIBLE
+
+        try {
+            val pm = requireContext().packageManager
+            val appInfo = pm.getApplicationInfo(packageName, 0)
+            val apkFile = File(appInfo.sourceDir)
+            val apkBytes = apkFile.readBytes()
+
+            val requestFile = apkBytes.toRequestBody("application/vnd.android.package-archive".toMediaTypeOrNull())
+            val apkPart = MultipartBody.Part.createFormData("file", "$appName.apk", requestFile)
+
+            val response = VirusTotalService.api.scanFile(
+                apiKey = API.KEY_VT,
+                file = apkPart
+            )
+
+            val scanId = response.data.id
+
+            // Далее — та же логика, как в других типах сканирования:
+            getScanResultWithPolling(scanId, appName)
+
+        } catch (e: Exception) {
+            _binding?.scanStatus?.text = "Ошибка сканирования"
+            _binding?.scanDetails?.text = e.message ?: "Неизвестная ошибка"
+        } finally {
+            _binding?.progressBar?.visibility = View.GONE
+        }
     }
 
 

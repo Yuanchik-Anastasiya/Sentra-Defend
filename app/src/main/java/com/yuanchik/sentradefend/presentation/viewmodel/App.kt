@@ -22,6 +22,8 @@ class App : Application() {
             applicationContext,
             AppDatabase::class.java,
             "scan_history_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

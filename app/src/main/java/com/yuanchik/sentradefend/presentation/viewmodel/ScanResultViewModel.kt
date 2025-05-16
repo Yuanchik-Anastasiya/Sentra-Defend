@@ -14,7 +14,7 @@ class ScanResultViewModel(application: Application) : AndroidViewModel(applicati
 
     private val repository: ScanResultRepository
 
-    val allResults: LiveData<List<ScanResultEntity>>
+    private val allResults: LiveData<List<ScanResultEntity>>
 
     init {
         val dao = AppDatabase.getDatabase(application).scanResultDao()

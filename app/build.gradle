@@ -85,4 +85,6 @@ dependencies {
 
     implementation libs.kotlinx.coroutines.android
 
+    implementation libs.material.v1110
+
 }

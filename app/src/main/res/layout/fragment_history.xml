@@ -12,18 +12,21 @@
     <TextView
         android:id="@+id/tvTitle"
         style="@style/Title_screen"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Virus scans"
-        android:paddingBottom="8dp"/>
+        android:text="История сканирования"
+        android:paddingBottom="8dp"
+        android:maxLines="2"
+        android:ellipsize="none"
+        android:singleLine="false" />
 
     <Button
         android:id="@+id/btnFilter"
         style="@style/RoundButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Фильтр по дате" />
+        android:text="Фильтр по дате"
+        android:textSize="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvScanHistory"
