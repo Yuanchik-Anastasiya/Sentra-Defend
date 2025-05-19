@@ -11,9 +11,5 @@
         android:icon="@drawable/history_vector"
         android:title="История"
         app:showAsAction="withText"/>
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/settings_vector"
-        android:title="Настройки"
-        app:showAsAction="withText"/>
+
 </menu>

@@ -20,14 +20,6 @@
         android:ellipsize="none"
         android:singleLine="false" />
 
-    <Button
-        android:id="@+id/btnFilter"
-        style="@style/RoundButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Фильтр по дате"
-        android:textSize="20dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvScanHistory"
         style="@style/Bottom"

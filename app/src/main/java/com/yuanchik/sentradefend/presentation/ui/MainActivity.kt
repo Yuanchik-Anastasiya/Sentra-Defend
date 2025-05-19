@@ -1,8 +1,12 @@
 package com.yuanchik.sentradefend.presentation.ui
 
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,26 +18,36 @@ import com.yuanchik.sentradefend.presentation.view.fragments.ScanFragment
 import com.yuanchik.sentradefend.presentation.ui.settings.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+    private var isNavVisible = true
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        binding.toggleNavButton.setOnClickListener {
+            toggleNav()
+        }
+
         initNavigation()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initNavigation() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, ScanFragment())
             .commit()
-        binding.bottomNavigation.setOnItemSelectedListener {
 
+        binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.scan -> {
                     val tag = "scan"
@@ -49,18 +63,10 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.settings -> {
-                    val tag = "settings"
-                    val fragment = checkFragmentExistence(tag)
-                    changeFragment(fragment ?: SettingsFragment(), tag)
-                    true
-                }
-
                 else -> false
             }
         }
     }
-
 
     private fun checkFragmentExistence(tag: String): Fragment? =
         supportFragmentManager.findFragmentByTag(tag)
@@ -76,7 +82,62 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+//    /* Анимация панели */
+//    private fun hideBottomNavAnimated() {
+//        val bottomNav = binding.bottomNavigation
+//        if (bottomNav.visibility == View.VISIBLE) {
+//            bottomNav.animate()
+//                .translationY(bottomNav.height.toFloat())
+//                .alpha(0f)
+//                .setDuration(300)
+//                .withEndAction { bottomNav.visibility = View.GONE }
+//                .start()
+//        }
+//    }
+//
+//    private fun showBottomNavAnimated() {
+//        val bottomNav = binding.bottomNavigation
+//        if (bottomNav.visibility != View.VISIBLE) {
+//            bottomNav.translationY = bottomNav.height.toFloat()
+//            bottomNav.alpha = 0f
+//            bottomNav.visibility = View.VISIBLE
+//            bottomNav.animate()
+//                .translationY(0f)
+//                .alpha(1f)
+//                .setDuration(300)
+//                .start()
+//        }
+//    }
+
+    private fun toggleNav() {
+        val nav = binding.bottomNavigation
+        val fab = binding.toggleNavButton
+
+        if (isNavVisible) {
+            nav.animate()
+                .translationY(nav.height.toFloat())
+                .setDuration(300)
+                .withEndAction {
+                    nav.visibility = View.GONE
+                    fab.setImageResource(R.drawable.ic_eye_closed) //  Панель скрыта
+                }
+                .start()
+        } else {
+            nav.visibility = View.VISIBLE
+            nav.animate()
+                .translationY(0f)
+                .setDuration(300)
+                .withEndAction {
+                    fab.setImageResource(R.drawable.ic_eye_open) //  Панель видна
+                }
+                .start()
+        }
+
+        isNavVisible = !isNavVisible
+    }
+
 }
+
 
 /// Тестирование Api ссылок.
 /*
