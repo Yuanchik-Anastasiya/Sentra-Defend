@@ -14,7 +14,7 @@
         style="@style/Title_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="История сканирования"
+        android:text="История"
         android:paddingBottom="8dp"
         android:maxLines="2"
         android:ellipsize="none"
@@ -23,6 +23,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvScanHistory"
         style="@style/Bottom"
+        android:scrollbarSize="25dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

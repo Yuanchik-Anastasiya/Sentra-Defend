@@ -33,5 +33,4 @@ interface VirusTotalApi {
         @Header("x-apikey") apiKey: String,
         @Part file: MultipartBody.Part
     ): ScanFileResponse
-
 }

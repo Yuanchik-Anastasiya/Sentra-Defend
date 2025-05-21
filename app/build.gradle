@@ -87,4 +87,6 @@ dependencies {
 
     implementation libs.material.v1110
 
+    implementation libs.androidx.core.ktx.v1120
+
 }
