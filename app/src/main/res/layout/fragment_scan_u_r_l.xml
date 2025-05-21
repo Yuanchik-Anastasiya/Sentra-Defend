@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_scan_url"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_screen"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".presentation.ui.scan.ScanURLFragment">
+
+    <ImageView
+        android:layout_width="396dp"
+        android:layout_height="309dp"
+        android:src="@drawable/scanurl" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundColor="@android:color/holo_blue_light">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите URL или IP"
+            android:inputType="textUri"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <RadioButton
+        android:id="@+id/btnScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Сканировать"
+        android:textColor="#001945"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:visibility="gone" />
+
+</LinearLayout>

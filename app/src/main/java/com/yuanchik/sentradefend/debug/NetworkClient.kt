@@ -1,4 +1,4 @@
-package com.yuanchik.sentradefend.network
+package com.yuanchik.sentradefend.debug
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
