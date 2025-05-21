@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/scan">
+
+    <fragment
+        android:id="@+id/scan"
+        android:name="com.yuanchik.sentradefend.presentation.view.fragments.ScanFragment"
+        android:label="Главный экран"
+        tools:layout="@layout/fragment_scan">
+
+        <action
+            android:id="@+id/action_scanFragment_to_fragmentScanUrl"
+            app:destination="@id/fragmentScanUrl" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentScanUrl"
+        android:name="com.yuanchik.sentradefend.presentation.ui.scan.ScanURLFragment"
+        android:label="Сканировать URL" >
+        <action
+            android:id="@+id/action_to_result"
+            app:destination="@id/fragmentScanResult" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentScanResult"
+        android:name="com.yuanchik.sentradefend.presentation.ui.scan.ScanResultFragment"
+        android:label="Результат проверки" />
+</navigation>
