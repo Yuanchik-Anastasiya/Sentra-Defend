@@ -1,5 +1,9 @@
 package com.yuanchik.sentradefend.presentation.ui.scan
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.yuanchik.sentradefend.R
@@ -15,6 +20,7 @@ import com.yuanchik.sentradefend.entity.ScanResultEntity
 import com.yuanchik.sentradefend.presentation.viewmodel.API
 import com.yuanchik.sentradefend.presentation.viewmodel.ScanResultViewModel
 import com.yuanchik.sentradefend.data.remote.VirusTotalService
+import com.yuanchik.sentradefend.presentation.ui.MainActivity
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -138,22 +144,21 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val locale = Locale.getDefault().language
                 val summary = if (locale == "en") {
                     """
-    ✅ Harmless: ${stats.harmless}
-    ❗ Malicious: ${stats.malicious}
-    ⚠️ Suspicious: ${stats.suspicious}
-    ❓ Not defined: ${stats.undetected}
-    """.trimIndent()
+                        ✅ Harmless: ${stats.harmless}
+                        ❗ Malicious: ${stats.malicious}
+                        ⚠️ Suspicious: ${stats.suspicious}
+                        ❓ Not defined: ${stats.undetected}
+                    """.trimIndent()
                 } else {
                     """
-    ✅ Безвреден: ${stats.harmless}
-    ❗ Вредоносен: ${stats.malicious}
-    ⚠️ Подозрительный: ${stats.suspicious}
-    ❓ Не определено: ${stats.undetected}
-    """.trimIndent()
+                        ✅ Безвреден: ${stats.harmless}
+                        ❗ Вредоносен: ${stats.malicious}
+                        ⚠️ Подозрительный: ${stats.suspicious}
+                        ❓ Не определено: ${stats.undetected}
+                    """.trimIndent()
                 }
 
                 _binding?.scanDetails?.text = summary
-
 
                 val resultText = when {
                     stats.malicious > 0 -> getString(R.string.dangerous)
@@ -176,6 +181,11 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 )
 
                 viewModel.insertScanResult(result)
+
+                // 🔔 Показываем нотификацию
+                val isSafe = stats.malicious == 0 && stats.suspicious == 0
+                showScanNotification(isSafe, displayName)
+
                 return
 
             } catch (e: Exception) {
@@ -212,7 +222,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
             val scanId = response.data.id
 
-            // Далее — та же логика, как в других типах сканирования:
             getScanResultWithPolling(scanId, appName)
 
         } catch (e: Exception) {
@@ -221,6 +230,35 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         } finally {
             _binding?.progressBar?.visibility = View.GONE
         }
+    }
+
+    // 🔔 Метод отправки уведомлений
+    private fun showScanNotification(isSafe: Boolean, displayName: String) {
+        val context = requireContext()
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("open_history", true) // <- добавляем флаг
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val builder = NotificationCompat.Builder(context, "scan_result_channel")
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(if (isSafe) "✅ Безопасно!" else "⚠️ Угроза!")
+            .setContentText("$displayName — ${if (isSafe) "Угроз не обнаружено" else "Обнаружены угрозы"}")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        notificationManager.notify(1001, builder.build())
     }
 
 

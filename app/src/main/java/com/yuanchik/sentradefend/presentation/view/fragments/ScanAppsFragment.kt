@@ -1,7 +1,10 @@
 package com.yuanchik.sentradefend.presentation.view.fragments
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputLayout
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.presentation.ui.scan.adapter.AppAdapter
 import com.yuanchik.sentradefend.databinding.FragmentScanAppsBinding
@@ -33,8 +37,10 @@ class ScanAppsFragment : Fragment() {
     ): View {
         _binding = FragmentScanAppsBinding.inflate(inflater, container, false)
 
+        animateNeonStroke(binding.searchInputLayout)
+
         adapter = AppAdapter(appList) {
-            // Колбэк при изменении выбранных элементов (можно менять состояние кнопки)
+
         }
 
         binding.appsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -104,6 +110,32 @@ class ScanAppsFragment : Fragment() {
             .addToBackStack(null)
             .commit()
 
+    }
+
+    private fun animateNeonStroke(textInputLayout: TextInputLayout) {
+        val neonColors = listOf(
+            Color.parseColor("#00FFFF"), // бирюзовый
+            Color.parseColor("#0088FF"), // голубой
+            Color.parseColor("#0000FF"), // синий
+            Color.parseColor("#4B0082"), // индиго
+            Color.parseColor("#0088FF"), // назад к голубому
+            Color.parseColor("#00FFFF")  // и снова бирюзовый
+        )
+
+        val animator = ValueAnimator.ofFloat(0f, (neonColors.size - 1).toFloat()).apply {
+            duration = 6000L
+            repeatCount = ValueAnimator.INFINITE
+            addUpdateListener { animation ->
+                val position = animation.animatedValue as Float
+                val index = position.toInt()
+                val fraction = position - index
+                val startColor = neonColors[index % neonColors.size]
+                val endColor = neonColors[(index + 1) % neonColors.size]
+                val animatedColor = ArgbEvaluator().evaluate(fraction, startColor, endColor) as Int
+                textInputLayout.boxStrokeColor = animatedColor
+            }
+        }
+        animator.start()
     }
 
     override fun onDestroyView() {

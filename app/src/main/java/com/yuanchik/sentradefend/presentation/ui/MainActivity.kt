@@ -1,6 +1,9 @@
 package com.yuanchik.sentradefend.presentation.ui
 
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -27,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val openHistory = intent.getBooleanExtra("open_history", false)
+
+        createNotificationChannel()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,9 +48,17 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initNavigation() {
+        val openHistory = intent.getBooleanExtra("open_history", false)
+
+        val initialFragment = if (openHistory) HistoryFragment() else ScanFragment()
+        val initialTag = if (openHistory) "history" else "scan"
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ScanFragment())
+            .replace(R.id.fragment_container, initialFragment, initialTag)
             .commit()
+
+        // Устанавливаем активную иконку в BottomNavigation
+        binding.bottomNavigation.selectedItemId = if (openHistory) R.id.history else R.id.scan
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -107,4 +122,18 @@ class MainActivity : AppCompatActivity() {
         isNavVisible = !isNavVisible
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "scan_result_channel",
+                "Scan Results",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Уведомления о результатах сканирования"
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 }

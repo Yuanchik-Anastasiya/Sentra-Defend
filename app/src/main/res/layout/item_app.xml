@@ -10,6 +10,7 @@
         android:id="@+id/appIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:scrollbarSize="50dp"
         android:layout_marginEnd="12dp" />
 
     <TextView
@@ -17,11 +18,16 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:scrollbarSize="50dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="@string/name"
         android:textSize="16sp" />
 
     <CheckBox
         android:id="@+id/appCheckbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@color/black"/>
 </LinearLayout>

@@ -3,4 +3,6 @@
     <color name="semi_transparent_white">#7057BAF0</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="initial_neon_blue">#00FFFF</color>
+
 </resources>
