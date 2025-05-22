@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Безопасен"
+        android:text="@string/safe"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"/>
@@ -27,7 +27,7 @@
         android:textStyle="bold|italic"
         android:textColor="@color/black"
         android:textSize="24sp"
-        android:text="Детали проверки будут тут" />
+        android:text="@string/details" />
 
     <ProgressBar
         android:id="@+id/progressBar"

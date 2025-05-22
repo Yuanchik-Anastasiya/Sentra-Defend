@@ -87,7 +87,7 @@ class ScanAppsFragment : Fragment() {
         val selectedApps = adapter.getFilteredList().filter { it.isSelected }
 
         if (selectedApps.isEmpty()) {
-            Toast.makeText(requireContext(), "Выберите приложения", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.choice), Toast.LENGTH_SHORT).show()
             return
         }
 

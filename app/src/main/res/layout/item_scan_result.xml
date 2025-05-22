@@ -11,8 +11,8 @@
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 Jan 3024"
-        android:textSize="20dp"
+        android:text="@string/data"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:textStyle="bold"/>
 
@@ -20,24 +20,24 @@
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="#001945"
         android:textStyle="italic"
-        android:text="14:20"/>
+        android:text="@string/time"/>
 
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="No threats"/>
+        android:textSize="15sp"
+        android:text="@string/no_threats"/>
 
     <Button
         android:id="@+id/btnShare"
         style="@style/RoundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Поделиться"
+        android:text="@string/share"
         android:layout_marginTop="8dp"
         android:visibility="gone"/>
 </LinearLayout>

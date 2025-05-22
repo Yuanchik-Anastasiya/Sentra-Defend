@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:hint="Поиск приложения"
+        android:hint="@string/search"
         app:startIconDrawable="@android:drawable/ic_menu_search"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
@@ -36,5 +36,5 @@
         style="@style/RoundButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Сканировать выбранные" />
+        android:text="@string/scan_the_selected" />
 </LinearLayout>

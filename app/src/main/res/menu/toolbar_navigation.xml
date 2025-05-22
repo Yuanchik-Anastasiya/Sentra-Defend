@@ -4,12 +4,12 @@
     <item
         android:id="@+id/scan"
         android:icon="@drawable/scan_vector"
-        android:title="Главная"
+        android:title="@string/main"
         app:showAsAction="withText"/>
     <item
         android:id="@+id/history"
         android:icon="@drawable/history_vector"
-        android:title="История"
+        android:title="@string/history"
         app:showAsAction="withText"/>
 
 </menu>

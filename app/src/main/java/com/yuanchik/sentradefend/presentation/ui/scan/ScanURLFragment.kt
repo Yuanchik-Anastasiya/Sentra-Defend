@@ -46,7 +46,7 @@ class ScanURLFragment : Fragment() {
             val url = binding.inputUrl.text.toString().trim()
 
             if (url.isEmpty()) {
-                Snackbar.make(binding.root, "Введите URL", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, getString(R.string.url), Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
@@ -79,7 +79,8 @@ class ScanURLFragment : Fragment() {
                     .commit()
 
             } catch (e: Exception) {
-                Snackbar.make(binding.root, "Ошибка запроса: ${e.message}", Snackbar.LENGTH_LONG)
+                Snackbar.make(binding.root,
+                    getString(R.string.request_error, e.message), Snackbar.LENGTH_LONG)
                     .show()
             } finally {
                 binding.progressBar.visibility = View.GONE

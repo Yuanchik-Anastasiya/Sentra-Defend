@@ -66,4 +66,3 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         binding1 = null
     }
 }
-

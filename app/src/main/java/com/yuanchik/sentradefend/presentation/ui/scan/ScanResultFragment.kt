@@ -62,12 +62,12 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val url = arguments?.getString("url")
 
                 if (scanId == null || url == null) {
-                    binding.scanStatus.text = "Ошибка: нет данных"
+                    binding.scanStatus.text = getString(R.string.data_error)
                     return
                 }
 
-                binding.scanStatus.text = "Проверка URL: $url"
-                binding.scanDetails.text = "Ожидание результата..."
+                binding.scanStatus.text = getString(R.string.check, url)
+                binding.scanDetails.text = getString(R.string.expectation)
 
                 lifecycleScope.launch {
                     getScanResultWithPolling(scanId, url)
@@ -79,12 +79,12 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val fileName = arguments?.getString("file_name")
 
                 if (scanId == null || fileName == null) {
-                    binding.scanStatus.text = "Ошибка: нет данных файла"
+                    binding.scanStatus.text = getString(R.string.file_error)
                     return
                 }
 
-                binding.scanStatus.text = "Проверка файла: $fileName"
-                binding.scanDetails.text = "Ожидание результата..."
+                binding.scanStatus.text = getString(R.string.checking_the_file, fileName)
+                binding.scanDetails.text = getString(R.string.expectation)
 
                 lifecycleScope.launch {
                     getScanResultWithPolling(scanId, fileName)
@@ -96,12 +96,12 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val appName = arguments?.getString("app_name")
 
                 if (packageName == null || appName == null) {
-                    binding.scanStatus.text = "Ошибка: нет данных пакета"
+                    binding.scanStatus.text = getString(R.string.package_error)
                     return
                 }
 
-                binding.scanStatus.text = "Проверка приложения: $appName"
-                binding.scanDetails.text = "Анализ по packageName: $packageName"
+                binding.scanStatus.text = getString(R.string.checking_the_application, appName)
+                binding.scanDetails.text = getString(R.string.analysis, packageName)
 
                 lifecycleScope.launch {
                     scanPackage(packageName, appName)
@@ -135,19 +135,30 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                     continue
                 }
 
-                val summary = """
-                ✅ Безвреден: ${stats.harmless}
-                ❗ Вредоносен: ${stats.malicious}
-                ⚠️ Подозрительный: ${stats.suspicious}
-                ❓ Не определено: ${stats.undetected}
-            """.trimIndent()
+                val locale = Locale.getDefault().language
+                val summary = if (locale == "en") {
+                    """
+    ✅ Harmless: ${stats.harmless}
+    ❗ Malicious: ${stats.malicious}
+    ⚠️ Suspicious: ${stats.suspicious}
+    ❓ Not defined: ${stats.undetected}
+    """.trimIndent()
+                } else {
+                    """
+    ✅ Безвреден: ${stats.harmless}
+    ❗ Вредоносен: ${stats.malicious}
+    ⚠️ Подозрительный: ${stats.suspicious}
+    ❓ Не определено: ${stats.undetected}
+    """.trimIndent()
+                }
 
                 _binding?.scanDetails?.text = summary
 
+
                 val resultText = when {
-                    stats.malicious > 0 -> "⚠️ Опасный"
-                    stats.suspicious > 0 -> "⚠️ Подозрительный"
-                    else -> "✅ Безопасный"
+                    stats.malicious > 0 -> getString(R.string.dangerous)
+                    stats.suspicious > 0 -> getString(R.string.suspicious)
+                    else -> getString(R.string.safery)
                 }
 
                 _binding?.scanStatus?.text = "$resultText: $displayName"
@@ -168,16 +179,16 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 return
 
             } catch (e: Exception) {
-                _binding?.scanStatus?.text = "Ошибка получения результата"
-                _binding?.scanDetails?.text = e.message ?: "Неизвестная ошибка"
+                _binding?.scanStatus?.text = getString(R.string.result_error)
+                _binding?.scanDetails?.text = e.message ?: getString(R.string.unknown_error)
                 return
             } finally {
                 _binding?.progressBar?.visibility = View.GONE
             }
         }
 
-        _binding?.scanStatus?.text = "⏳ Ответ не получен"
-        _binding?.scanDetails?.text = "Попробуйте повторно позже"
+        _binding?.scanStatus?.text = getString(R.string.there_is_no_response)
+        _binding?.scanDetails?.text = getString(R.string.try_again_later)
         _binding?.progressBar?.visibility = View.GONE
     }
 
@@ -190,7 +201,8 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
             val apkFile = File(appInfo.sourceDir)
             val apkBytes = apkFile.readBytes()
 
-            val requestFile = apkBytes.toRequestBody("application/vnd.android.package-archive".toMediaTypeOrNull())
+            val requestFile =
+                apkBytes.toRequestBody("application/vnd.android.package-archive".toMediaTypeOrNull())
             val apkPart = MultipartBody.Part.createFormData("file", "$appName.apk", requestFile)
 
             val response = VirusTotalService.api.scanFile(
@@ -204,8 +216,8 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
             getScanResultWithPolling(scanId, appName)
 
         } catch (e: Exception) {
-            _binding?.scanStatus?.text = "Ошибка сканирования"
-            _binding?.scanDetails?.text = e.message ?: "Неизвестная ошибка"
+            _binding?.scanStatus?.text = getString(R.string.scan_error)
+            _binding?.scanDetails?.text = e.message ?: getString(R.string.unknown_error)
         } finally {
             _binding?.progressBar?.visibility = View.GONE
         }

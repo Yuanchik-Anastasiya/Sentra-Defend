@@ -14,7 +14,7 @@
         style="@style/Title_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="История"
+        android:text="@string/history"
         android:paddingBottom="8dp"
         android:maxLines="2"
         android:ellipsize="none"

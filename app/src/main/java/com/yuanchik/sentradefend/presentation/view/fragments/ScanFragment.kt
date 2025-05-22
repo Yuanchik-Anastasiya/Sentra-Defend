@@ -85,7 +85,7 @@ class ScanFragment : Fragment() {
                 try {
                     val fileBytes = requireContext().contentResolver
                         .openInputStream(uri)?.readBytes()
-                        ?: throw Exception("Не удалось прочитать файл")
+                        ?: throw Exception(getString(R.string.could_not_read))
 
                     val requestFile =
                         fileBytes.toRequestBody("application/octet-stream".toMediaTypeOrNull())
@@ -114,7 +114,7 @@ class ScanFragment : Fragment() {
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireContext(),
-                        "Ошибка сканирования: ${e.message}",
+                        getString(R.string.error_scan, e.message),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -135,7 +135,7 @@ class ScanFragment : Fragment() {
         if (result == null) {
             result = uri.path?.substringAfterLast('/')
         }
-        return result ?: "Неизвестный файл"
+        return result ?: getString(R.string.unknown_file)
     }
 
     override fun onDestroyView() {

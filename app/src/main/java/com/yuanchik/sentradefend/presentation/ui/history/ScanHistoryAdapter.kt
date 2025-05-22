@@ -36,7 +36,10 @@ class ScanHistoryAdapter :
         holder.timeView.text = scan.time
         holder.resultView.text = scan.result
 
-        val isSafe = scan.result.contains("Безопасный", ignoreCase = true)
+        val isSafe =
+            scan.result.contains("Безопасный", ignoreCase = true) ||
+                    scan.result.contains("Safely", ignoreCase = true)
+
         holder.resultView.setTextColor(if (isSafe) Color.GREEN else Color.RED)
 
 // Показываем кнопку только если результат безопасный
@@ -46,14 +49,14 @@ class ScanHistoryAdapter :
         holder.shareButton.setOnClickListener {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Скан от ${scan.date} ${scan.time}: ${scan.result}")
+                putExtra(Intent.EXTRA_TEXT, "Scan from ${scan.date} ${scan.time}: ${scan.result}")
                 type = "text/plain"
             }
             val context = holder.itemView.context
             context.startActivity(
                 Intent.createChooser(
                     shareIntent,
-                    "Поделиться результатом сканирования через:"
+                    context.getString(R.string.to_share)
                 )
             )
         }
@@ -78,4 +81,3 @@ class ScanHistoryAdapter :
         }
     }
 }
-

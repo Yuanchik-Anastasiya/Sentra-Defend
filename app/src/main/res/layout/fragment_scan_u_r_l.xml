@@ -12,6 +12,7 @@
     tools:context=".presentation.ui.scan.ScanURLFragment">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="396dp"
         android:layout_height="309dp"
         android:src="@drawable/scanurl" />
@@ -26,7 +27,7 @@
             android:id="@+id/inputUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите URL или IP"
+            android:hint="@string/url"
             android:inputType="textUri"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
@@ -40,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Сканировать"
+        android:text="@string/scan"
         android:textColor="#001945"
         android:textSize="30sp"
         android:textStyle="bold|italic" />

@@ -3,7 +3,6 @@ package com.yuanchik.sentradefend.presentation.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -15,7 +14,6 @@ import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.ActivityMainBinding
 import com.yuanchik.sentradefend.presentation.ui.history.HistoryFragment
 import com.yuanchik.sentradefend.presentation.view.fragments.ScanFragment
-import com.yuanchik.sentradefend.presentation.ui.settings.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -82,33 +80,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-//    /* Анимация панели */
-//    private fun hideBottomNavAnimated() {
-//        val bottomNav = binding.bottomNavigation
-//        if (bottomNav.visibility == View.VISIBLE) {
-//            bottomNav.animate()
-//                .translationY(bottomNav.height.toFloat())
-//                .alpha(0f)
-//                .setDuration(300)
-//                .withEndAction { bottomNav.visibility = View.GONE }
-//                .start()
-//        }
-//    }
-//
-//    private fun showBottomNavAnimated() {
-//        val bottomNav = binding.bottomNavigation
-//        if (bottomNav.visibility != View.VISIBLE) {
-//            bottomNav.translationY = bottomNav.height.toFloat()
-//            bottomNav.alpha = 0f
-//            bottomNav.visibility = View.VISIBLE
-//            bottomNav.animate()
-//                .translationY(0f)
-//                .alpha(1f)
-//                .setDuration(300)
-//                .start()
-//        }
-//    }
-
     private fun toggleNav() {
         val nav = binding.bottomNavigation
         val fab = binding.toggleNavButton
@@ -137,40 +108,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-/// Тестирование Api ссылок.
-/*
-               //Проверка Url
-               binding.buttonUrl.setOnClickListener {
-                   lifecycleScope.launch {
-                       try {
-                           val response = NetworkClient.virusTotal.scanUrl(API.KEY_VT, "http://example.com")
-                           if (response.isSuccessful) {
-                               println("✅ URL безопасен: ${response.body()}")
-                           } else {
-                               println("❌ Ошибка проверки: ${response.errorBody()?.string()}")
-                           }
-                       } catch (e: Exception) {
-                           Log.e("🚨 Исключение: ${e.message}", e.toString())
-                       }
-                   }
-               }
-
-               // Проверка IP
-               binding.buttonIP.setOnClickListener {
-                   lifecycleScope.launch {
-                       try {
-                           val response = NetworkClient.fraudLabs.checkIp("8.8.8.8", API.KEY_FLP)
-
-                               if (response.isSuccessful) {
-                                   println("✅ FraudLabs OK: ${response.body()}")
-                               } else {
-                                   println("❌ FraudLabs ошибка: ${response.errorBody()?.string()}")
-                               }
-                       } catch (e: Exception) {
-                           Log.e("🚨 Исключение при запросе: ${e.message}", e.toString())
-                       }
-                   }
-               }
-*/

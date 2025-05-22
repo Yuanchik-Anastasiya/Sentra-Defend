@@ -25,7 +25,8 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сканировать URL/IP" />
+            android:textStyle="bold|italic"
+            android:text="@string/scan_the_URL" />
 
 
         <Button
@@ -33,14 +34,16 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сканировать APPS" />
+            android:textStyle="bold|italic"
+            android:text="@string/apps" />
 
         <Button
             android:id="@+id/scan_fils"
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сканировать файл" />
+            android:textStyle="bold|italic"
+            android:text="@string/scan_the_file" />
 
     </LinearLayout>
 
