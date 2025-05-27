@@ -1,6 +1,7 @@
 package com.yuanchik.sentradefend
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.yuanchik.sentradefend.data.AppDatabase
 import com.yuanchik.sentradefend.di.AppComponent
@@ -25,5 +26,8 @@ class App : Application() {
         )
             .fallbackToDestructiveMigration()
             .build()
+
+        val theme = PreferencesManager(this).getSavedTheme()
+        AppCompatDelegate.setDefaultNightMode(theme.mode)
     }
 }

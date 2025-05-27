@@ -40,4 +40,20 @@
     <string name="try_again_later">Попробуйте повторно позже</string>
     <string name="scan_error">Ошибка сканирования</string>
     <string name="main">Главная</string>
+    <string name="api_key">API ключ</string>
+    <string name="theme">Тема</string>
+    <string name="reset_settings">Сброс настроек</string>
+    <string name="setting">Настройки</string>
+    <string name="theme_light">Тема: Светлая</string>
+    <string name="theme_dark">Тема: Тёмная</string>
+    <string name="subject_system">Тема: Системная</string>
+    <string name="settings_reset">Настройки сброшены</string>
+    <string name="cancel">Отмена</string>
+    <string name="key_saved">Ключ сохранён</string>
+    <string name="save">Сохранить</string>
+    <string name="entering_the_key">Введите API ключ</string>
+    <string name="choosing_a_theme">Выберите тему</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Тёмная</string>
+    <string name="system">Системная</string>
 </resources>

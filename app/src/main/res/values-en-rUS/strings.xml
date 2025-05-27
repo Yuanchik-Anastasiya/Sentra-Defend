@@ -40,4 +40,20 @@
     <string name="scan_error">Scan error</string>
     <string name="could_not_read">Couldn\'t read the file</string>
     <string name="main">Main screen</string>
+    <string name="api_key">API key</string>
+    <string name="theme">Theme</string>
+    <string name="reset_settings">Reset settings</string>
+    <string name="setting">Settings</string>
+    <string name="theme_light">Theme: Light</string>
+    <string name="theme_dark">Theme: Dark</string>
+    <string name="subject_system">Theme: System</string>
+    <string name="settings_reset">Settings have been reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="key_saved">The key is saved</string>
+    <string name="save">Save</string>
+    <string name="entering_the_key">Enter the API key</string>
+    <string name="choosing_a_theme">Choose a theme</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="system">System</string>
 </resources>

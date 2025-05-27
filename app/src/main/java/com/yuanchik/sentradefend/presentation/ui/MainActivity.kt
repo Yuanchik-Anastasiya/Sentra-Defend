@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.yuanchik.sentradefend.R
 import com.yuanchik.sentradefend.databinding.ActivityMainBinding
 import com.yuanchik.sentradefend.presentation.ui.history.HistoryFragment
+import com.yuanchik.sentradefend.presentation.ui.settings.SettingsFragment
 import com.yuanchik.sentradefend.presentation.view.fragments.ScanFragment
 
 class MainActivity : AppCompatActivity() {
@@ -73,6 +74,12 @@ class MainActivity : AppCompatActivity() {
                     val tag = "history"
                     val fragment = checkFragmentExistence(tag)
                     changeFragment(fragment ?: HistoryFragment(), tag)
+                    true
+                }
+                R.id.settings -> {
+                    val tag = "settings"
+                    val fragment = checkFragmentExistence(tag)
+                    changeFragment(fragment ?: SettingsFragment(), tag)
                     true
                 }
 

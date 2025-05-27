@@ -10,96 +10,93 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.yuanchik.sentradefend.databinding.FragmentSettingsBinding
 import com.yuanchik.sentradefend.App
+import com.yuanchik.sentradefend.PreferencesManager
+import com.yuanchik.sentradefend.R
+import com.yuanchik.sentradefend.enum.AppTheme
 import com.yuanchik.sentradefend.utils.AnimationHelper
 import com.yuanchik.sentradefend.utils.PreferencesHelper
 import javax.inject.Inject
 
 
 class SettingsFragment : Fragment() {
+
     private var binding2: FragmentSettingsBinding? = null
     private val binding get() = binding2!!
 
     @Inject
-    lateinit var sharedPrefs: SharedPreferences
+    lateinit var preferencesManager: PreferencesManager
 
-    private lateinit var switchNotifications: MaterialSwitch
-    private lateinit var switchAutoScan: MaterialSwitch
-    private lateinit var switchAutoUpdate: MaterialSwitch
     private lateinit var tvTheme: TextView
     private lateinit var tvApiKeys: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         binding2 = FragmentSettingsBinding.inflate(inflater, container, false)
 
         (requireActivity().application as App).appComponent.inject(this)
 
-//        val value = sharedPrefs.getBoolean("auto_check", false)
-//        Toast.makeText(requireContext(), "AutoCheck = $value", Toast.LENGTH_SHORT).show()
-
-        switchNotifications = binding.switchNotifications
-        switchAutoScan = binding.switchScheduledScan
-        switchAutoUpdate = binding.switchAutoUpdate
         tvTheme = binding.tvTheme
         tvApiKeys = binding.tvApiKeys
 
-        switchNotifications.isChecked = PreferencesHelper.getBoolean(requireContext(), "notifications")
-        switchAutoScan.isChecked = PreferencesHelper.getBoolean(requireContext(), "autoscan")
-        switchAutoUpdate.isChecked = PreferencesHelper.getBoolean(requireContext(), "autoupdate")
 
-
-        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
-            PreferencesHelper.saveBoolean(requireContext(), "notifications", isChecked)
-        }
-
-        switchAutoScan.setOnCheckedChangeListener { _, isChecked ->
-            PreferencesHelper.saveBoolean(requireContext(), "autoscan", isChecked)
-        }
-
-        switchAutoUpdate.setOnCheckedChangeListener { _, isChecked ->
-            PreferencesHelper.saveBoolean(requireContext(), "autoupdate", isChecked)
-        }
+        // Отображение текущей темы
+        updateThemeText(preferencesManager.getSavedTheme())
 
         tvTheme.setOnClickListener {
-            Toast.makeText(requireContext(), "Выбранные настройки темы", Toast.LENGTH_SHORT).show()
-            // Позже будет диалог выбора темы
+            val options = arrayOf(getString(R.string.light), getString(R.string.dark),
+                getString(R.string.system))
+            val currentTheme = preferencesManager.getSavedTheme()
+
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.choosing_a_theme))
+                .setSingleChoiceItems(options, currentTheme.ordinal) { dialog, which ->
+                    val selectedTheme = AppTheme.fromOrdinal(which)
+                    preferencesManager.saveTheme(selectedTheme)
+                    AppCompatDelegate.setDefaultNightMode(selectedTheme.mode)
+                    updateThemeText(selectedTheme)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show()
         }
 
+        // API key диалог
         tvApiKeys.setOnClickListener {
             val editText = EditText(requireContext()).apply {
-                hint = "Введите API ключ"
+                hint = context.getString(R.string.entering_the_key)
                 setText(PreferencesHelper.getString(requireContext(), "api_key"))
             }
 
             AlertDialog.Builder(requireContext())
-                .setTitle("API ключ")
+                .setTitle(getString(R.string.api_key))
                 .setView(editText)
-                .setPositiveButton("Сохранить") { _, _ ->
+                .setPositiveButton(getString(R.string.save)) { _, _ ->
                     val apiKey = editText.text.toString()
                     PreferencesHelper.saveString(requireContext(), "api_key", apiKey)
-                    Toast.makeText(requireContext(), "Ключ сохранён", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.key_saved), Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("Отмена", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show()
         }
 
         binding.btnReset.setOnClickListener {
-            switchNotifications.isChecked = false
-            switchAutoScan.isChecked = false
-            switchAutoUpdate.isChecked = false
+            val defaultTheme = AppTheme.SYSTEM
+            preferencesManager.saveTheme(defaultTheme)
+            AppCompatDelegate.setDefaultNightMode(defaultTheme.mode)
+            updateThemeText(defaultTheme)
 
-            PreferencesHelper.saveBoolean(requireContext(), "notifications", false)
-            PreferencesHelper.saveBoolean(requireContext(), "autoscan", false)
-            PreferencesHelper.saveBoolean(requireContext(), "autoupdate", false)
 
-            Toast.makeText(requireContext(), "Настройки сброшены", Toast.LENGTH_SHORT).show()
+            PreferencesHelper.saveString(requireContext(), "api_key", "")
+
+            Toast.makeText(requireContext(), getString(R.string.settings_reset), Toast.LENGTH_SHORT).show()
         }
-
 
 
         AnimationHelper.performFragmentCircularRevealAnimation(
@@ -107,8 +104,18 @@ class SettingsFragment : Fragment() {
             requireActivity(),
             3
         )
+
         return binding.root
     }
+
+    private fun updateThemeText(theme: AppTheme) {
+        binding.tvTheme.text = when (theme) {
+            AppTheme.LIGHT -> getString(R.string.theme_light)
+            AppTheme.DARK -> getString(R.string.theme_dark)
+            AppTheme.SYSTEM -> getString(R.string.subject_system)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding2 = null

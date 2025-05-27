@@ -17,39 +17,16 @@
             style="@style/Title_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Настройки"
+            android:text="@string/setting"
             android:paddingBottom="16dp" />
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchNotifications"
-            style="@style/Bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Notifications"/>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchScheduledScan"
-            style="@style/Bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Запланированное сканирование"/>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchAutoUpdate"
-            style="@style/Bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Смена темы"/>
 
         <TextView
             android:id="@+id/tvApiKeys"
             style="@style/Bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="API keys"
+            android:text="@string/api_key"
             android:paddingTop="16dp"
             android:textColor="?android:attr/textColorPrimary" />
 
@@ -58,7 +35,7 @@
             style="@style/Bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Theme: System"
+            android:text="@string/theme"
             android:paddingTop="16dp"
             android:textColor="?android:attr/textColorPrimary" />
 
@@ -67,7 +44,7 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сброс настроек"
+            android:text="@string/reset_settings"
             android:layout_marginTop="24dp" />
 
     </LinearLayout>
