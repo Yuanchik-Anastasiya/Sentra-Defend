@@ -17,7 +17,7 @@
             style="@style/Title_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="Настройки"
             android:paddingBottom="16dp" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Scheduled scan"/>
+            android:text="Запланированное сканирование"/>
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchAutoUpdate"
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Database auto-update"/>
+            android:text="Смена темы"/>
 
         <TextView
             android:id="@+id/tvApiKeys"

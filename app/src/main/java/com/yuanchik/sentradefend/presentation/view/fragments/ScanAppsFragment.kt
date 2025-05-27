@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import com.yuanchik.sentradefend.R
@@ -22,6 +23,9 @@ import com.yuanchik.sentradefend.presentation.ui.scan.adapter.AppAdapter
 import com.yuanchik.sentradefend.databinding.FragmentScanAppsBinding
 import com.yuanchik.sentradefend.presentation.ui.scan.model.AppInfo
 import com.yuanchik.sentradefend.presentation.ui.scan.ScanResultFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ScanAppsFragment : Fragment() {
@@ -61,33 +65,40 @@ class ScanAppsFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadInstalledApps() {
-        val pm = requireContext().packageManager
-        val packages = pm.getInstalledPackages(0)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val pm = requireContext().packageManager
+            val packages = pm.getInstalledPackages(0)
 
-        appList.clear()
-        for (packageInfo in packages) {
-            val appInfo = packageInfo.applicationInfo ?: continue
+            val tempList = mutableListOf<AppInfo>()
 
-            // Пропускаем системные приложения
-            if ((appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0) continue
+            for (packageInfo in packages) {
+                val appInfo = packageInfo.applicationInfo ?: continue
+                if ((appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0) continue
 
-            val appName = pm.getApplicationLabel(appInfo).toString()
-            val icon = pm.getApplicationIcon(appInfo)
-            val apkPath = appInfo.sourceDir
+                val appName = pm.getApplicationLabel(appInfo).toString()
+                val icon = pm.getApplicationIcon(appInfo)
+                val apkPath = appInfo.sourceDir
 
-            appList.add(
-                AppInfo(
-                    appName = appName,
-                    packageName = packageInfo.packageName,
-                    icon = icon,
-                    apkPath = apkPath
+                tempList.add(
+                    AppInfo(
+                        appName = appName,
+                        packageName = packageInfo.packageName,
+                        icon = icon,
+                        apkPath = apkPath
+                    )
                 )
-            )
-        }
+            }
 
-        appList.sortBy { it.appName.lowercase() }
-        adapter.notifyDataSetChanged()
+            tempList.sortBy { it.appName.lowercase() }
+
+            withContext(Dispatchers.Main) {
+                appList.clear()
+                appList.addAll(tempList)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
+
 
     private fun scanSelectedApps() {
         val selectedApps = adapter.getFilteredList().filter { it.isSelected }

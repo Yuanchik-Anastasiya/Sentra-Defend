@@ -4,8 +4,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -116,9 +121,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         }
     }
 
-    /**
-     * Повторно опрашивает API, пока не появятся реальные результаты
-     */
     private suspend fun getScanResultWithPolling(scanId: String, displayName: String) {
         _binding?.progressBar?.visibility = View.VISIBLE
 
@@ -158,7 +160,48 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                     """.trimIndent()
                 }
 
-                _binding?.scanDetails?.text = summary
+                val spannable = SpannableString(summary)
+
+                fun colorize(keyword: String, color: Int) {
+                    if (keyword.isEmpty()) {
+                        Log.d("ScanResultFragment", "colorize: keyword is empty, skipping")
+                        return
+                    }
+
+                    val start = summary.indexOf(keyword)
+                    if (start == -1) {
+                        Log.d("ScanResultFragment", "colorize: keyword '$keyword' not found in summary")
+                        return
+                    }
+
+                    val end = start + keyword.length
+                    if (end <= start) {
+                        Log.d("ScanResultFragment", "colorize: invalid span range for keyword '$keyword': start=$start, end=$end")
+                        return
+                    }
+
+                    Log.d("ScanResultFragment", "colorize: applying color to keyword '$keyword' from $start to $end")
+                    spannable.setSpan(
+                        ForegroundColorSpan(color),
+                        start,
+                        end,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
+
+
+                if (locale != "en") {
+                    colorize("✅ Безвреден", Color.parseColor("#388E3C"))
+                    colorize("❗ Вредоносен", Color.RED)
+                    colorize("⚠️ Подозрительный", Color.parseColor("#FFA000"))
+                } else {
+                    colorize("✅ Harmless", Color.parseColor("#388E3C"))
+                    colorize("❗ Malicious", Color.RED)
+                    colorize("⚠️ Suspicious", Color.parseColor("#FFA000"))
+                }
+
+                _binding?.scanDetails?.text = spannable
 
                 val resultText = when {
                     stats.malicious > 0 -> getString(R.string.dangerous)
@@ -182,7 +225,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
                 viewModel.insertScanResult(result)
 
-                // 🔔 Показываем нотификацию
                 val isSafe = stats.malicious == 0 && stats.suspicious == 0
                 showScanNotification(isSafe, displayName)
 
@@ -232,7 +274,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
         }
     }
 
-    // 🔔 Метод отправки уведомлений
     private fun showScanNotification(isSafe: Boolean, displayName: String) {
         val context = requireContext()
         val notificationManager =
@@ -240,7 +281,7 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra("open_history", true) // <- добавляем флаг
+            putExtra("open_history", true)
         }
 
         val pendingIntent = PendingIntent.getActivity(
@@ -260,7 +301,6 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
         notificationManager.notify(1001, builder.build())
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
