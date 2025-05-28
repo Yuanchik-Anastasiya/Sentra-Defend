@@ -5,16 +5,18 @@
         android:id="@+id/scan"
         android:icon="@drawable/scan_vector"
         android:title="@string/main"
+        android:menuCategory="container"
         app:showAsAction="withText"/>
     <item
         android:id="@+id/history"
         android:icon="@drawable/history_vector"
         android:title="@string/history"
+        android:menuCategory="container"
         app:showAsAction="withText"/>
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/history_vector"
+        android:icon="@drawable/settings_vector"
         android:title="@string/setting"
+        android:menuCategory="container"
         app:showAsAction="withText"/>
-
 </menu>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/data"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/initial_neon_blue"
         android:textStyle="bold"/>
 
     <TextView
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="#001945"
-        android:textStyle="italic"
+        android:textColor="#CEB0F0"
+        android:textStyle="italic|bold"
         android:text="@string/time"/>
 
     <TextView

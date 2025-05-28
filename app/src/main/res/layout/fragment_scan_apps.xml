@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/backdrop_1"
     android:padding="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -26,15 +27,19 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/appsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="430dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="16dp" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/scanSelectedAppsButton"

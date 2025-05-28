@@ -2,31 +2,48 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_scan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_screen"
-    android:id="@+id/fragment_scan"
+    android:background="@drawable/backdrop"
     android:padding="16dp"
     tools:context=".presentation.view.fragments.ScanFragment">
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="Sentra Defend"
+        android:textAlignment="center"
+        android:textColor="@color/initial_neon_blue"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
         android:id="@+id/bottom_screen"
-        android:layout_width="350dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="110dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <Button
             android:id="@+id/scan_url"
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold|italic"
-            android:text="@string/scan_the_URL" />
+            android:text="@string/scan_the_URL"
+            android:textSize="15sp"
+            android:textStyle="bold|italic" />
 
 
         <Button
@@ -34,28 +51,20 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold|italic"
-            android:text="@string/apps" />
+            android:text="@string/apps"
+            android:textSize="15sp"
+            android:textStyle="bold|italic" />
 
         <Button
             android:id="@+id/scan_fils"
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold|italic"
-            android:text="@string/scan_the_file" />
+            android:text="@string/scan_the_file"
+            android:textSize="15sp"
+            android:textStyle="bold|italic" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/emblema"
-        android:layout_width="400dp"
-        android:layout_height="421dp"
-        android:paddingTop="11dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/emblema4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_screen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
