@@ -5,26 +5,58 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:background="@drawable/backdrop_1"
+    tools:context=".presentation.ui.MainActivity">
 
-    <Button
-        android:id="@+id/buttonUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Проверка ссылки через VirusTotal"
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/buttonIP"
+    <FrameLayout
+        android:id="@+id/fr_la"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Проверка IP через FraudLabs"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonUrl"
-        android:layout_margin="16dp"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/buttom"
+            android:maxHeight="100dp"
+            app:itemIconSize="35dp"
+            app:itemIconTint="@color/initial_neon_blue"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/toolbar_navigation" />
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggleNavButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/semi_transparent_white"
+        android:contentDescription="Toggle Navigation"
+        android:src="@drawable/ic_eye_open"
+        android:tint="@color/initial_neon_blue"
+        app:layout_constraintBottom_toTopOf="@+id/fr_la"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="60dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

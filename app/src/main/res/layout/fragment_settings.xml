@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backdrop_1"
+    android:id="@+id/fragment_settings"
+    tools:context=".presentation.ui.settings.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/Title_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting"
+            android:textColor="@color/textColor"
+            android:paddingBottom="16dp" />
+
+
+        <TextView
+            android:id="@+id/tvApiKeys"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/api_key"
+            android:paddingTop="16dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/tvTheme"
+            style="@style/Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/theme"
+            android:paddingTop="16dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/RoundButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
+            android:text="@string/reset_settings"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>

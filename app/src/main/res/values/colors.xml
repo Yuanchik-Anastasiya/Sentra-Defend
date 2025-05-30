@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="semi_transparent_white">#7057BAF0</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="initial_neon_blue">#3C64C1</color>
+    <color name="textColor">#87A3F0</color>
+
+
+    <color name="colorPrimary">#6750A4</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#EADDFF</color>
+    <color name="colorOnPrimaryContainer">#21005D</color>
+
+    <color name="colorSecondary">#625B71</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#E8DEF8</color>
+    <color name="colorOnSecondaryContainer">#1D192B</color>
+
+    <color name="colorBackground">#FFFBFE</color>
+    <color name="colorOnBackground">#1C1B1F</color>
+
+    <color name="colorSurface">#FFFBFE</color>
+    <color name="colorOnSurface">#1C1B1F</color>
+
+    <color name="colorError">#B3261E</color>
+    <color name="colorOnError">#FFFFFF</color>
+
+
 </resources>
