@@ -25,13 +25,13 @@ o	NotificationCompat: для отображения уведомлений
 ![Главный экран](app/screenshots/main-screen.jpg)
 
 *Результат сканирования:  
-![Результат](app/screenshots/result-screen.jpg)
+![Результат](app/screenshots/results-screen.jpg)
 
 *Экран настроек:  
 ![Настройки](app/screenshots/settings-screen.jpg)
 
 *История сканирований:  
-![История](app/screenshots/history-screen.jpg)
+![История](app/screenshots/history_screen.jpg)
 
 *Экран сканирования URL:  
 ![Сканирование URL](app/screenshots/URL-scan-screen.jpg)
