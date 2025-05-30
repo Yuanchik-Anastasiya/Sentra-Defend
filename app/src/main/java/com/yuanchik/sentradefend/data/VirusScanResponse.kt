@@ -9,4 +9,3 @@ data class VirusScanResponse(
         @SerializedName("id") val id: String
     )
 }
-

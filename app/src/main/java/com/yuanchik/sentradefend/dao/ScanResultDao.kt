@@ -19,4 +19,7 @@ interface ScanResultDao {
     @Query("SELECT * FROM scan_results ORDER BY id DESC")
     fun getPagedResults(): PagingSource<Int, ScanResultEntity>
 
+    @Query("DELETE FROM scan_results")
+    suspend fun clearAll()
+
 }

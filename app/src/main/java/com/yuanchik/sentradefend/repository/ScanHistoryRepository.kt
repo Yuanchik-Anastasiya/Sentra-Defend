@@ -22,5 +22,8 @@ class ScanHistoryRepository(private val dao: ScanResultDao) {
     suspend fun saveResult(scanResult: ScanResultEntity) {
         dao.insert(scanResult)
     }
-}
 
+    suspend fun clearScanResults() {
+        dao.clearAll()
+    }
+}

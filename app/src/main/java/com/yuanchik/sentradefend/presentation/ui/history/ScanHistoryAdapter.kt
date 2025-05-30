@@ -42,10 +42,8 @@ class ScanHistoryAdapter :
 
         holder.resultView.setTextColor(if (isSafe) Color.GREEN else Color.RED)
 
-// Показываем кнопку только если результат безопасный
         holder.shareButton.visibility = if (isSafe) View.VISIBLE else View.GONE
 
-// Обработчик кнопки "Поделиться"
         holder.shareButton.setOnClickListener {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND

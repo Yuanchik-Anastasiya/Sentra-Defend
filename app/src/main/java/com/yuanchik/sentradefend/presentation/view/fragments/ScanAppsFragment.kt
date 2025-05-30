@@ -125,12 +125,12 @@ class ScanAppsFragment : Fragment() {
 
     private fun animateNeonStroke(textInputLayout: TextInputLayout) {
         val neonColors = listOf(
-            Color.parseColor("#00FFFF"), // бирюзовый
-            Color.parseColor("#0088FF"), // голубой
-            Color.parseColor("#0000FF"), // синий
-            Color.parseColor("#4B0082"), // индиго
-            Color.parseColor("#0088FF"), // назад к голубому
-            Color.parseColor("#00FFFF")  // и снова бирюзовый
+            Color.parseColor("#00FFFF"),
+            Color.parseColor("#0088FF"),
+            Color.parseColor("#0000FF"),
+            Color.parseColor("#4B0082"),
+            Color.parseColor("#0088FF"),
+            Color.parseColor("#00FFFF")
         )
 
         val animator = ValueAnimator.ofFloat(0f, (neonColors.size - 1).toFloat()).apply {
