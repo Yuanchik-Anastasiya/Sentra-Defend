@@ -9,4 +9,3 @@ data class AppInfo(
     val apkPath: String,
     var isSelected: Boolean = false
 )
-

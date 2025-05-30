@@ -35,7 +35,6 @@ class ScanURLFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Запуск анимации появления фрагмента
         AnimationHelper.performFragmentCircularRevealAnimation(
             binding.fragmentScanUrl,
             requireActivity(),
@@ -87,7 +86,6 @@ class ScanURLFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

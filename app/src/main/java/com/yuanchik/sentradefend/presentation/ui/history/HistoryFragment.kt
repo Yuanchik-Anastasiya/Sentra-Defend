@@ -1,5 +1,6 @@
 package com.yuanchik.sentradefend.presentation.ui.history
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,24 +33,25 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     ): View {
         binding1 = FragmentHistoryBinding.inflate(inflater, container, false)
 
-        // DAO → Repo → ViewModel через фабрику
         val dao = AppDatabase.getDatabase(requireContext()).scanResultDao()
         val repository = ScanHistoryRepository(dao)
         val factory = HistoryViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[HistoryViewModel::class.java]
 
-        // Paging Adapter
         adapter = ScanHistoryAdapter()
         binding.rvScanHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.rvScanHistory.adapter = adapter
 
-        // Подписка на Flow с PagingData
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.scanResults.collectLatest { pagingData ->
                     adapter.submitData(pagingData)
                 }
             }
+        }
+
+        binding.resetting.setOnClickListener {
+            showClearHistoryDialog()
         }
 
         AnimationHelper.performFragmentCircularRevealAnimation(
@@ -59,6 +61,17 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         )
 
         return binding.root
+    }
+
+    private fun showClearHistoryDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.сlearing_the_history))
+            .setMessage(getString(R.string.question))
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                viewModel.clearHistory()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     override fun onDestroyView() {

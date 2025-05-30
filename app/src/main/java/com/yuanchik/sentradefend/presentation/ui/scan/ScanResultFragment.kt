@@ -5,12 +5,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +49,7 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentScanResultBinding.inflate(inflater, container, false)
 
@@ -77,7 +77,8 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                     return
                 }
 
-                binding.scanStatus.text = getString(R.string.check, url)
+                val shortUrl = shortenUrl(url)
+                binding.scanStatus.text = getString(R.string.check, shortUrl)
                 binding.scanDetails.text = getString(R.string.expectation)
 
                 lifecycleScope.launch {
@@ -146,14 +147,14 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val locale = Locale.getDefault().language
                 val summary = if (locale == "en") {
                     """
-                        ✅ Harmless: ${stats.harmless}
+                        ✔ Harmless: ${stats.harmless}
                         ❗ Malicious: ${stats.malicious}
                         ⚠️ Suspicious: ${stats.suspicious}
                         ❓ Not defined: ${stats.undetected}
                     """.trimIndent()
                 } else {
                     """
-                        ✅ Безвреден: ${stats.harmless}
+                        ✔ Безвреден: ${stats.harmless}
                         ❗ Вредоносен: ${stats.malicious}
                         ⚠️ Подозрительный: ${stats.suspicious}
                         ❓ Не определено: ${stats.undetected}
@@ -163,40 +164,23 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                 val spannable = SpannableString(summary)
 
                 fun colorize(keyword: String, color: Int) {
-                    if (keyword.isEmpty()) {
-                        Log.d("ScanResultFragment", "colorize: keyword is empty, skipping")
-                        return
-                    }
-
                     val start = summary.indexOf(keyword)
-                    if (start == -1) {
-                        Log.d("ScanResultFragment", "colorize: keyword '$keyword' not found in summary")
-                        return
+                    if (start != -1) {
+                        spannable.setSpan(
+                            ForegroundColorSpan(color),
+                            start,
+                            start + keyword.length,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
                     }
-
-                    val end = start + keyword.length
-                    if (end <= start) {
-                        Log.d("ScanResultFragment", "colorize: invalid span range for keyword '$keyword': start=$start, end=$end")
-                        return
-                    }
-
-                    Log.d("ScanResultFragment", "colorize: applying color to keyword '$keyword' from $start to $end")
-                    spannable.setSpan(
-                        ForegroundColorSpan(color),
-                        start,
-                        end,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
                 }
 
-
-
                 if (locale != "en") {
-                    colorize("✅ Безвреден", Color.parseColor("#388E3C"))
+                    colorize("✔ Безвреден", Color.parseColor("#388E3C"))
                     colorize("❗ Вредоносен", Color.RED)
                     colorize("⚠️ Подозрительный", Color.parseColor("#FFA000"))
                 } else {
-                    colorize("✅ Harmless", Color.parseColor("#388E3C"))
+                    colorize("✔ Harmless", Color.parseColor("#388E3C"))
                     colorize("❗ Malicious", Color.RED)
                     colorize("⚠️ Suspicious", Color.parseColor("#FFA000"))
                 }
@@ -209,7 +193,8 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
                     else -> getString(R.string.safery)
                 }
 
-                _binding?.scanStatus?.text = "$resultText: $displayName"
+                val shortDisplayName = shortenUrl(displayName)
+                _binding?.scanStatus?.text = "$resultText: $shortDisplayName"
 
                 val currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
                 val currentDate = LocalDate.now().format(
@@ -291,15 +276,33 @@ class ScanResultFragment : Fragment(R.layout.fragment_scan_result) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        val shortDisplayName = shortenUrl(displayName)
+
         val builder = NotificationCompat.Builder(context, "scan_result_channel")
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(if (isSafe) "✅ Безопасно!" else "⚠️ Угроза!")
-            .setContentText("$displayName — ${if (isSafe) "Угроз не обнаружено" else "Обнаружены угрозы"}")
+            .setContentTitle(if (isSafe) "✔ Безопасно!" else "⚠️ Угроза!")
+            .setContentText("$shortDisplayName — ${if (isSafe) "Угроз не обнаружено" else "Обнаружены угрозы"}")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
         notificationManager.notify(1001, builder.build())
+    }
+
+    private fun shortenUrl(url: String): String {
+        return try {
+            val uri = Uri.parse(url)
+            val host = uri.host ?: return url
+            val pathSegments = uri.pathSegments
+
+            if (pathSegments.isNotEmpty()) {
+                "https://$host/${pathSegments.first()}/..."
+            } else {
+                "https://$host/..."
+            }
+        } catch (e: Exception) {
+            url
+        }
     }
 
     override fun onDestroyView() {

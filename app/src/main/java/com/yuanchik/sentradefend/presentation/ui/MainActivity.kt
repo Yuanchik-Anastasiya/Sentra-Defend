@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, initialFragment, initialTag)
             .commit()
 
-        // Устанавливаем активную иконку в BottomNavigation
         binding.bottomNavigation.selectedItemId = if (openHistory) R.id.history else R.id.scan
 
         binding.bottomNavigation.setOnItemSelectedListener {
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                 .setDuration(300)
                 .withEndAction {
                     nav.visibility = View.GONE
-                    fab.setImageResource(R.drawable.ic_eye_closed) //  Панель скрыта
+                    fab.setImageResource(R.drawable.ic_eye_closed)
                 }
                 .start()
         } else {
@@ -121,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 .translationY(0f)
                 .setDuration(300)
                 .withEndAction {
-                    fab.setImageResource(R.drawable.ic_eye_open) //  Панель видна
+                    fab.setImageResource(R.drawable.ic_eye_open)
                 }
                 .start()
         }
@@ -136,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                 "Scan Results",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "Уведомления о результатах сканирования"
+                description = getString(R.string.notifications)
             }
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
