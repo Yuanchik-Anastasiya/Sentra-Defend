@@ -25,19 +25,19 @@ o	NotificationCompat: для отображения уведомлений
 ![Главный экран](app/screenshots/main-screen.jpg)
 
 *Результат сканирования:  
-![Результат](screenshots/result-screen.jpg)
+![Результат](app/screenshots/result-screen.jpg)
 
 *Экран настроек:  
-![Настройки](screenshots/settings-screen.jpg)
+![Настройки](app/screenshots/settings-screen.jpg)
 
 *История сканирований:  
-![История](screenshots/history-screen.jpg)
+![История](app/screenshots/history-screen.jpg)
 
 *Экран сканирования URL:  
-![Сканирование URL](screenshots/URL-scan-screen.jpg)
+![Сканирование URL](app/screenshots/URL-scan-screen.jpg)
 
 *Экран проверки:  
-![Проверка URL](screenshots/verification-screen.jpg)
+![Проверка URL](app/screenshots/verification-screen.jpg)
 
 ⚙️ Установка и запуск
 1.	Клонируйте репозиторий:
