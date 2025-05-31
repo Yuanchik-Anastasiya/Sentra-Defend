@@ -33,7 +33,7 @@
     <string name="analysis">Анализ по названию пакета: %1$s</string>
     <string name="dangerous">⚠️ Опасный</string>
     <string name="suspicious">⚠️ Подозрительный</string>
-    <string name="safery">✅ Безопасный</string>
+    <string name="safery">✔ Безопасный</string>
     <string name="result_error">Ошибка получения результата</string>
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="there_is_no_response">⏳ Ответ не получен</string>
@@ -56,4 +56,9 @@
     <string name="light">Светлая</string>
     <string name="dark">Тёмная</string>
     <string name="system">Системная</string>
+    <string name="notifications">Уведомления о результатах сканирования</string>
+    <string name="сlear_the_history">Отчистить историю</string>
+    <string name="сlearing_the_history">Очистка истории</string>
+    <string name="question">Вы уверены, что хотите удалить всю историю сканирований?</string>
+    <string name="yes">Да</string>
 </resources>

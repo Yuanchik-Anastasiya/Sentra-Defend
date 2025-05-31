@@ -1,7 +1,6 @@
 package com.yuanchik.sentradefend.presentation.ui.settings
 
 import android.app.AlertDialog
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.material.materialswitch.MaterialSwitch
 import com.yuanchik.sentradefend.databinding.FragmentSettingsBinding
 import com.yuanchik.sentradefend.App
 import com.yuanchik.sentradefend.PreferencesManager
@@ -45,12 +43,13 @@ class SettingsFragment : Fragment() {
         tvApiKeys = binding.tvApiKeys
 
 
-        // Отображение текущей темы
         updateThemeText(preferencesManager.getSavedTheme())
 
         tvTheme.setOnClickListener {
-            val options = arrayOf(getString(R.string.light), getString(R.string.dark),
-                getString(R.string.system))
+            val options = arrayOf(
+                getString(R.string.dark), getString(R.string.light),
+                getString(R.string.system)
+            )
             val currentTheme = preferencesManager.getSavedTheme()
 
             AlertDialog.Builder(requireContext())
@@ -66,7 +65,6 @@ class SettingsFragment : Fragment() {
                 .show()
         }
 
-        // API key диалог
         tvApiKeys.setOnClickListener {
             val editText = EditText(requireContext()).apply {
                 hint = context.getString(R.string.entering_the_key)
@@ -79,8 +77,10 @@ class SettingsFragment : Fragment() {
                 .setPositiveButton(getString(R.string.save)) { _, _ ->
                     val apiKey = editText.text.toString()
                     PreferencesHelper.saveString(requireContext(), "api_key", apiKey)
-                    Toast.makeText(requireContext(),
-                        getString(R.string.key_saved), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.key_saved), Toast.LENGTH_SHORT
+                    ).show()
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
                 .show()
@@ -95,7 +95,8 @@ class SettingsFragment : Fragment() {
 
             PreferencesHelper.saveString(requireContext(), "api_key", "")
 
-            Toast.makeText(requireContext(), getString(R.string.settings_reset), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.settings_reset), Toast.LENGTH_SHORT)
+                .show()
         }
 
 
@@ -110,8 +111,8 @@ class SettingsFragment : Fragment() {
 
     private fun updateThemeText(theme: AppTheme) {
         binding.tvTheme.text = when (theme) {
-            AppTheme.LIGHT -> getString(R.string.theme_light)
-            AppTheme.DARK -> getString(R.string.theme_dark)
+            AppTheme.LIGHT -> getString(R.string.theme_dark)
+            AppTheme.DARK -> getString(R.string.theme_light)
             AppTheme.SYSTEM -> getString(R.string.subject_system)
         }
     }

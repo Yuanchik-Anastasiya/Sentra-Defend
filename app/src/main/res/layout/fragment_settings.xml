@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting"
+            android:textColor="@color/textColor"
             android:paddingBottom="16dp" />
 
 
@@ -44,6 +45,7 @@
             style="@style/RoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
             android:text="@string/reset_settings"
             android:layout_marginTop="24dp" />
 

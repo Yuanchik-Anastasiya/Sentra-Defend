@@ -32,7 +32,7 @@
     <string name="analysis">Package Name Analysis: %1$s</string>
     <string name="dangerous">⚠️ Dangerous</string>
     <string name="suspicious">⚠️ Suspicious</string>
-    <string name="safery">✅ Safely</string>
+    <string name="safery">✔ Safely</string>
     <string name="result_error">Error getting the result</string>
     <string name="unknown_error">Unknown error</string>
     <string name="there_is_no_response">⏳ No response received</string>
@@ -56,4 +56,9 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="system">System</string>
+    <string name="notifications">Notifications about scan results</string>
+    <string name="сlear_the_history">Clear the history</string>
+    <string name="сlearing_the_history">Clearing the history</string>
+    <string name="question">Are you sure you want to delete your entire scan history?</string>
+    <string name="yes">Yes</string>
 </resources>

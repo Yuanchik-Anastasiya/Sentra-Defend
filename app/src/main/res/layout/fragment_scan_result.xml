@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_scan_result"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="660dp"
     android:background="@drawable/backdrop_1"
     android:gravity="center"
     android:orientation="vertical"
@@ -17,7 +17,8 @@
         android:layout_marginBottom="16dp"
         android:text="@string/safe"
         android:textColor="#00E5FF"
-        android:textSize="30sp"
+        android:gravity="center"
+        android:textSize="25sp"
         android:textStyle="bold|italic"/>
 
     <TextView
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold|italic"
         android:textColor="#8000E5FF"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:text="@string/details" />
 
     <ProgressBar
